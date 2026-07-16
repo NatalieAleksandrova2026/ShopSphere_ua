@@ -104,3 +104,16 @@ GROUP BY
     channel
 ORDER BY
     roi DESC;
+
+2.1. Saisonalität. Liniendiagramm des Gesamtumsatzes nach Monaten über den gesamten Zeitraum.
+Gibt es saisonale Spitzen? Wann verdient das Unternehmen am meisten?
+
+SELECT
+    order_year                                   AS order_year,
+    order_month                                  AS order_month,
+    SUM(net_amount)                              AS total_revenue
+FROM shopsphere_orders
+GROUP BY
+    order_year, order_month
+ORDER BY
+    order_year, order_month;
