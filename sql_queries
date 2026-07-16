@@ -19,3 +19,45 @@ GROUP BY
 ORDER BY
     c.region,
     o.order_year;
+
+1.2. Finden Sie die Top-10-Kunden nach Gesamtausgaben. Geben Sie deren Region,
+Akquisitionskanal und die Anzahl der getätigten Bestellungen an.
+
+SELECT
+    c.customer_id                      AS customer_id,
+    c.region                           AS region,
+    c.acquisition_chan              AS acquisition_channel,
+    COUNT(o.order_id)                  AS order_count,
+    SUM(o.net_amount)                  AS total_spent
+FROM shopsphere_orders AS o
+JOIN shopsphere_customers AS c
+    ON o.customer_id = c.customer_id
+GROUP BY
+    c.customer_id,
+    c.region,
+    c.acquisition_chan
+ORDER BY
+    total_spent DESC
+LIMIT 10;
+
+1.3. Berechnen Sie für jede Produktkategorie: den Gesamtumsatz, die durchschnittliche Marge
+(margin_pct) und den Retourenanteil. Dafür müssen order_items, products und orders
+zusammengeführt werden.
+
+SELECT
+    p.category                                                           AS category,
+    SUM(oi.line_total)                                                   AS total_revenue,
+    ROUND(AVG(p.margin_pct), 2)                                          AS avg_margin_pct,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN o.is_returned = 1 THEN oi.order_id END) * 1.0
+        / COUNT(DISTINCT oi.order_id), 4
+    ) AS return_rate
+FROM shopsphere_order_items AS oi
+JOIN shopsphere_products AS p
+    ON oi.product_id = p.product_id
+JOIN shopsphere_orders AS o
+    ON oi.order_id = o.order_id
+GROUP BY
+    p.category
+ORDER BY
+    total_revenue DESC;
