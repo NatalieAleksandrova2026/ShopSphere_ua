@@ -66,6 +66,30 @@ ORDER BY
 Ausgabenwert über die gesamte Datenbank hinweg übersteigen. Wie viele sind es? Welchen Anteil am
 Gesamtumsatz haben sie?
 
+SELECT
+    COUNT(*)                                                  AS customers_above_avg,
+    SUM(t.customer_total)                                     AS revenue_above_avg,
+    ROUND(
+        SUM(t.customer_total) * 1.0 /
+        (SELECT SUM(net_amount) FROM shopsphere_orders), 4
+    )                                                          AS share_of_total_revenue
+FROM (
+    SELECT
+        customer_id,
+        SUM(net_amount) AS customer_total
+    FROM shopsphere_orders
+   GROUP BY customer_id
+) AS t
+WHERE t.customer_total > (
+    SELECT AVG(customer_total)
+    FROM (
+        SELECT
+            customer_id,
+            SUM(net_amount) AS customer_total
+        FROM shopsphere_orders
+        GROUP BY customer_id
+    )
+);
 
 1.5. Berechnen Sie für jeden Marketingkanal: das Gesamtbudget, den gesamten zugeschriebenen
 Umsatz und den ROI (Umsatz / Budget). Verwenden Sie die Tabelle marketing.
