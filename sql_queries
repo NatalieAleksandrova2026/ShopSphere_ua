@@ -1,1 +1,21 @@
+##Block 1. SQL: Datenvorbereitung
 
+1.1. Berechnen Sie den gesamten Nettoumsatz (net_amount), die Anzahl der Bestellungen und den
+durchschnittlichen Bestellwert für jede REGION und jedes JAHR. Erforderlich ist ein JOIN von orders
+mit customers.
+
+SELECT
+    c.region                                   AS region,
+    o.order_year                               AS order_year,
+    SUM(o.net_amount)                          AS total_net_revenue,
+    COUNT(o.order_id)                          AS order_count,
+    ROUND(SUM(o.net_amount) * 1.0 / COUNT(o.order_id), 2) AS avg_order_value
+FROM shopsphere_orders AS o
+JOIN shopsphere_customers AS c
+    ON o.customer_id = c.customer_id
+GROUP BY
+    c.region,
+    o.order_year
+ORDER BY
+    c.region,
+    o.order_year;
