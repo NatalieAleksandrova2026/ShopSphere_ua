@@ -93,3 +93,14 @@ WHERE t.customer_total > (
 
 1.5. Berechnen Sie für jeden Marketingkanal: das Gesamtbudget, den gesamten zugeschriebenen
 Umsatz und den ROI (Umsatz / Budget). Verwenden Sie die Tabelle marketing.
+
+SELECT
+    channel                                                  AS channel,
+    SUM(budget)                                              AS total_budget,
+    SUM(attributed_reven)                                  AS total_attributed_revenue,
+    ROUND(SUM(attributed_reven) * 1.0 / SUM(budget), 2)    AS roi
+FROM shopsphere_marketing
+GROUP BY
+    channel
+ORDER BY
+    roi DESC;
