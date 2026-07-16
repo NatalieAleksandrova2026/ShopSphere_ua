@@ -61,3 +61,11 @@ GROUP BY
     p.category
 ORDER BY
     total_revenue DESC;
+
+1.4. Finden Sie mittels Unterabfrage die Kunden, deren Gesamtausgaben den durchschnittlichen
+Ausgabenwert über die gesamte Datenbank hinweg übersteigen. Wie viele sind es? Welchen Anteil am
+Gesamtumsatz haben sie?
+
+
+1.5. Berechnen Sie für jeden Marketingkanal: das Gesamtbudget, den gesamten zugeschriebenen
+Umsatz und den ROI (Umsatz / Budget). Verwenden Sie die Tabelle marketing.
