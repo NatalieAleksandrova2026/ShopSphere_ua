@@ -1,4 +1,4 @@
-##Block 1. SQL: Datenvorbereitung
+Block 1. SQL: Datenvorbereitung
 
 1.1. Berechnen Sie den gesamten Nettoumsatz (net_amount), die Anzahl der Bestellungen und den
 durchschnittlichen Bestellwert für jede REGION und jedes JAHR. Erforderlich ist ein JOIN von orders
