@@ -118,6 +118,21 @@ GROUP BY
 ORDER BY
     order_year, order_month;
 
+2.2. Marketing: Budget vs. Effizienz. Vergleichen Sie die Kanäle nach Budget und ROI. Tipp: Eine
+Dual-Axis- oder Scatter-Darstellung zeigt gut, ob das Budget sinnvoll verteilt ist.
+
+SELECT
+    channel                                                  AS channel,
+    year                                                     AS year,
+    SUM(budget)                                              AS total_budget,
+    SUM(attributed_revenue)                                  AS total_attributed_revenue,
+    ROUND(SUM(attributed_revenue) * 1.0 / SUM(budget), 2)    AS roi
+FROM shopsphere_marketing
+GROUP BY
+    channel, year
+ORDER BY
+    channel, year;
+
 2.5. Kundenbeitrag (Pareto). Visualisieren Sie, welchen Umsatzanteil die Top-Kunden erwirtschaften.
 Tipp: kumulatives Diagramm oder einfacher Vergleich „Top 5 % vs. Rest“.
 
