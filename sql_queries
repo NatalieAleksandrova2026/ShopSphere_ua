@@ -169,3 +169,21 @@ SELECT
 FROM ranked
 GROUP BY customer_group
 ORDER BY customer_group;
+
+
+2.6. (Kreativ). Wählen Sie einen noch nicht untersuchten Datenausschnitt und erstellen Sie eine
+Visualisierung nach eigenem Ermessen. Überraschen Sie uns mit einem Insight.
+
+SELECT
+    c.acquisition_channel                                      AS acquisition_channel,
+    COUNT(DISTINCT c.customer_id)                              AS customer_count,
+    SUM(o.net_amount)                                          AS total_revenue,
+    ROUND(SUM(o.net_amount) * 1.0 / COUNT(DISTINCT c.customer_id), 2) AS avg_ltv_per_customer,
+    ROUND(COUNT(o.order_id) * 1.0 / COUNT(DISTINCT c.customer_id), 2)  AS avg_orders_per_customer
+FROM shopsphere_customers AS c
+JOIN shopsphere_orders AS o
+    ON c.customer_id = o.customer_id
+GROUP BY
+    c.acquisition_channel
+ORDER BY
+    avg_ltv_per_customer DESC;
