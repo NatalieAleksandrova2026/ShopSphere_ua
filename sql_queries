@@ -211,6 +211,34 @@ FROM ranked
 GROUP BY customer_group
 ORDER BY customer_group;
 
+2.5.2. Pareto mit Region
+
+WITH customer_totals AS (
+    SELECT
+        o.customer_id                    AS customer_id,
+        c.region                         AS region,
+        SUM(o.net_amount)                AS total_spent
+    FROM shopsphere_orders AS o
+    JOIN shopsphere_customers AS c
+        ON o.customer_id = c.customer_id
+    GROUP BY o.customer_id, c.region
+),
+ranked AS (
+    SELECT
+        customer_id,
+        region,
+        total_spent,
+  		NTILE(20) OVER (ORDER BY total_spent DESC) AS percentile_bucket
+    FROM customer_totals
+)
+SELECT
+    percentile_bucket                          AS percentile_bucket,
+    region                                      AS region,
+    COUNT(*)                                    AS customers_in_bucket,
+    SUM(total_spent)                            AS bucket_revenue
+FROM ranked
+GROUP BY percentile_bucket, region
+ORDER BY percentile_bucket, region;
 
 2.6. (Kreativ). Wählen Sie einen noch nicht untersuchten Datenausschnitt und erstellen Sie eine
 Visualisierung nach eigenem Ermessen. Überraschen Sie uns mit einem Insight.
