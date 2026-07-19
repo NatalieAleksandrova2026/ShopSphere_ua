@@ -117,3 +117,28 @@ GROUP BY
     order_year, order_month
 ORDER BY
     order_year, order_month;
+
+2.5. Kundenbeitrag (Pareto). Visualisieren Sie, welchen Umsatzanteil die Top-Kunden erwirtschaften.
+Tipp: kumulatives Diagramm oder einfacher Vergleich „Top 5 % vs. Rest“.
+
+WITH customer_totals AS (
+    SELECT
+        customer_id,
+        SUM(net_amount) AS total_spent
+    FROM shopsphere_orders
+    GROUP BY customer_id
+),
+ranked AS (
+    SELECT
+        customer_id,
+        total_spent,
+        NTILE(20) OVER (ORDER BY total_spent DESC) AS percentile_bucket
+    FROM customer_totals
+)
+SELECT
+    percentile_bucket                          AS percentile_bucket,
+    COUNT(*)                                    AS customers_in_bucket,
+    SUM(total_spent)                            AS bucket_revenue
+FROM ranked
+GROUP BY percentile_bucket
+ORDER BY percentile_bucket;
