@@ -125,8 +125,8 @@ SELECT
     channel                                                  AS channel,
     year                                                     AS year,
     SUM(budget)                                              AS total_budget,
-    SUM(attributed_revenue)                                  AS total_attributed_revenue,
-    ROUND(SUM(attributed_revenue) * 1.0 / SUM(budget), 2)    AS roi
+    SUM(attributed_reven)                                  AS total_attributed_revenue,
+    ROUND(SUM(attributed_reven) * 1.0 / SUM(budget), 2)    AS roi
 FROM shopsphere_marketing
 GROUP BY
     channel, year
