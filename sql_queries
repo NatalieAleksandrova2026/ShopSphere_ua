@@ -133,6 +133,32 @@ GROUP BY
 ORDER BY
     channel, year;
 
+2.3. Kategorien: Volumen vs. Profitabilität. Scatter- oder Bubble-Chart: Umsatz auf der X-Achse,
+Marge auf der Y-Achse, Punktgröße = Retourenanteil. Welche Kategorien sind „versteckte
+Diamanten“?
+
+SELECT
+    p.category                                                           AS category,
+    o.order_year                                                         AS order_year,
+    c.region                                                             AS region,
+    SUM(oi.line_total)                                                   AS total_revenue,
+    ROUND(AVG(p.margin_pct), 2)                                          AS avg_margin_pct,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN o.is_returned = 1 THEN oi.order_id END) * 1.0
+        / COUNT(DISTINCT oi.order_id), 4
+    )                                                                     AS return_rate
+FROM shopsphere_order_items AS oi
+JOIN shopsphere_products AS p
+    ON oi.product_id = p.product_id
+JOIN shopsphere_orders AS o
+    ON oi.order_id = o.order_id
+JOIN shopsphere_customers AS c
+    ON o.customer_id = c.customer_id
+GROUP BY
+    p.category, o.order_year, c.region
+ORDER BY
+    p.category, o.order_year, c.region;
+
 2.5. Kundenbeitrag (Pareto). Visualisieren Sie, welchen Umsatzanteil die Top-Kunden erwirtschaften.
 Tipp: kumulatives Diagramm oder einfacher Vergleich „Top 5 % vs. Rest“.
 
