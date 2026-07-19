@@ -143,10 +143,8 @@ SELECT
     c.region                                                             AS region,
     SUM(oi.line_total)                                                   AS total_revenue,
     ROUND(AVG(p.margin_pct), 2)                                          AS avg_margin_pct,
-    ROUND(
-        COUNT(DISTINCT CASE WHEN o.is_returned = 1 THEN oi.order_id END) * 1.0
-        / COUNT(DISTINCT oi.order_id), 4
-    )                                                                     AS return_rate
+    COUNT(DISTINCT CASE WHEN o.is_returned = 1 THEN oi.order_id END)     AS returned_orders,
+    COUNT(DISTINCT oi.order_id)                                          AS total_orders
 FROM shopsphere_order_items AS oi
 JOIN shopsphere_products AS p
     ON oi.product_id = p.product_id
@@ -158,6 +156,7 @@ GROUP BY
     p.category, o.order_year, c.region
 ORDER BY
     p.category, o.order_year, c.region;
+
 
 2.5. Kundenbeitrag (Pareto). Visualisieren Sie, welchen Umsatzanteil die Top-Kunden erwirtschaften.
 Tipp: kumulatives Diagramm oder einfacher Vergleich „Top 5 % vs. Rest“.
