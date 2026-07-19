@@ -156,6 +156,7 @@ GROUP BY
     p.category, o.order_year, c.region
 ORDER BY
     p.category, o.order_year, c.region;
+  
 
 
 2.5. Kundenbeitrag (Pareto). Visualisieren Sie, welchen Umsatzanteil die Top-Kunden erwirtschaften.
