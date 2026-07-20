@@ -246,7 +246,7 @@ ORDER BY percentile_bucket, region;
 Visualisierung nach eigenem Ermessen. Überraschen Sie uns mit einem Insight.
 
 SELECT
-    c.acquisition_channel                                      AS acquisition_channel,
+    c.acquisition_chan                                      AS acquisition_channel,
     COUNT(DISTINCT c.customer_id)                              AS customer_count,
     SUM(o.net_amount)                                          AS total_revenue,
     ROUND(SUM(o.net_amount) * 1.0 / COUNT(DISTINCT c.customer_id), 2) AS avg_ltv_per_customer,
@@ -255,10 +255,9 @@ FROM shopsphere_customers AS c
 JOIN shopsphere_orders AS o
     ON c.customer_id = o.customer_id
 GROUP BY
-    c.acquisition_channel
+    c.acquisition_chan
 ORDER BY
     avg_ltv_per_customer DESC;
-
 KPI:
 
 SELECT
