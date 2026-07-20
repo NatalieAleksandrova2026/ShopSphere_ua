@@ -213,6 +213,7 @@ ORDER BY customer_group;
 
 2.5.2. Pareto mit Region
 
+
 WITH customer_totals AS (
     SELECT
         o.customer_id                    AS customer_id,
@@ -225,10 +226,10 @@ WITH customer_totals AS (
 ),
 ranked AS (
     SELECT
-        customer_id,
+   customer_id,
         region,
         total_spent,
-  		NTILE(20) OVER (ORDER BY total_spent DESC) AS percentile_bucket
+        NTILE(20) OVER (ORDER BY total_spent DESC) AS percentile_bucket
     FROM customer_totals
 )
 SELECT
@@ -239,6 +240,7 @@ SELECT
 FROM ranked
 GROUP BY percentile_bucket, region
 ORDER BY percentile_bucket, region;
+ 
 
 2.6. (Kreativ). Wählen Sie einen noch nicht untersuchten Datenausschnitt und erstellen Sie eine
 Visualisierung nach eigenem Ermessen. Überraschen Sie uns mit einem Insight.
