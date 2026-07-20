@@ -256,3 +256,15 @@ GROUP BY
     c.acquisition_channel
 ORDER BY
     avg_ltv_per_customer DESC;
+
+KPI:
+
+SELECT
+    o.order_id                                 AS order_id,
+    o.order_year                               AS order_year,
+    c.region                                    AS region,
+    o.net_amount                                AS net_amount,
+    o.is_returned                               AS is_returned
+FROM shopsphere_orders AS o
+JOIN shopsphere_customers AS c
+    ON o.customer_id = c.customer_id;
