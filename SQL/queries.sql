@@ -269,3 +269,23 @@ SELECT
 FROM shopsphere_orders AS o
 JOIN shopsphere_customers AS c
     ON o.customer_id = c.customer_id;
+ Block 4.8
+
+WITH customer_discount AS (
+    SELECT
+        customer_id,
+        AVG(discount_pct)                          AS avg_discount,
+        COUNT(order_id)                             AS order_count,
+        SUM(net_amount)                              AS total_spent
+    FROM shopsphere_orders
+    GROUP BY customer_id
+)
+SELECT
+    CASE WHEN avg_discount > 20 THEN 'Discount-Kunden (>20%)' ELSE 'Übrige Kunden' END AS segment,
+    COUNT(*)                                          AS customer_count,
+    ROUND(AVG(order_count), 2)                        AS avg_orders_per_customer,
+    SUM(CASE WHEN order_count = 1 THEN 1 ELSE 0 END)  AS one_time_buyers,
+    ROUND(SUM(CASE WHEN order_count = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) AS pct_one_time_buyers,
+    ROUND(AVG(total_spent), 2)                        AS avg_total_spent
+FROM customer_discount
+GROUP BY segment;
