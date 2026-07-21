@@ -289,3 +289,35 @@ SELECT
     ROUND(AVG(total_spent), 2)                        AS avg_total_spent
 FROM customer_discount
 GROUP BY segment;
+
+Block 4.9
+
+WITH customer_totals AS (
+    SELECT
+        customer_id,
+        SUM(net_amount) AS total_spent
+    FROM shopsphere_orders
+    GROUP BY customer_id
+),
+ranked AS (
+    SELECT
+        customer_id,
+        total_spent,
+        NTILE(20) OVER (ORDER BY total_spent DESC) AS percentile_bucket
+    FROM customer_totals
+),
+top5 AS (
+    SELECT customer_id, total_spent
+    FROM ranked
+    WHERE percentile_bucket = 1
+)
+SELECT
+    c.region                                   AS region,
+    c.acquisition_chan                       AS acquisition_channel,
+    COUNT(*)                                    AS top_customer_count,
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) AS pct_of_top5
+FROM top5
+JOIN shopsphere_customers AS c
+    ON top5.customer_id = c.customer_id
+GROUP BY c.region, c.acquisition_chan
+ORDER BY top_customer_count DESC;
