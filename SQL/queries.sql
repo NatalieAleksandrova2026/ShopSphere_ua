@@ -406,3 +406,17 @@ SELECT
 FROM experiment_orders
 GROUP BY ab_variant, customer_type
 ORDER BY customer_type, ab_variant;
+
+2.6. Creative
+    SELECT
+    channel                                                    AS channel,
+    year                                                       AS year,
+    SUM(impressions)                                           AS total_impressions,
+    SUM(clicks)                                                AS total_clicks,
+    SUM(conversions)                                           AS total_conversions,
+    ROUND(SUM(clicks) * 100.0 / SUM(impressions), 2)           AS ctr_pct,
+    ROUND(SUM(conversions) * 100.0 / SUM(clicks), 2)           AS conversion_rate_pct
+FROM shopsphere_marketing
+GROUP BY channel, year
+ORDER BY channel, year;
+    
