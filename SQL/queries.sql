@@ -367,3 +367,42 @@ FROM shopsphere_orders
 WHERE ab_variant IN ('A', 'B')
 GROUP BY ab_variant
 ORDER BY ab_variant;
+
+Block 5.2.
+    WITH customer_first_order AS (
+    SELECT
+        customer_id,
+        MIN(order_date) AS first_order_date
+    FROM shopsphere_orders
+    GROUP BY customer_id
+),
+experiment_orders AS (
+    SELECT
+        o.order_id,
+        o.customer_id,
+        o.order_date,
+        o.net_amount,
+  		 o.ab_variant,
+        c.signup_date,
+        f.first_order_date,
+        CASE
+            WHEN o.order_date = f.first_order_date
+                 AND julianday(o.order_date) - julianday(c.signup_date) <= 60
+            THEN 'New'
+            ELSE 'Repeat'
+        END AS customer_type
+    FROM shopsphere_orders AS o
+    JOIN shopsphere_customers AS c
+        ON o.customer_id = c.customer_id
+    JOIN customer_first_order AS f
+  		ON o.customer_id = f.customer_id
+    WHERE o.ab_variant IN ('A', 'B')
+)
+SELECT
+    ab_variant                                 AS ab_variant,
+    customer_type                               AS customer_type,
+    COUNT(*)                                    AS order_count,
+    ROUND(AVG(net_amount), 2)                   AS avg_net_amount
+FROM experiment_orders
+GROUP BY ab_variant, customer_type
+ORDER BY customer_type, ab_variant;
