@@ -356,3 +356,14 @@ JOIN shopsphere_customers AS c
     ON top5.customer_id = c.customer_id
 GROUP BY c.region, c.acquisition_chan
 ORDER BY revenue_from_top5 DESC;
+
+Block 5.1
+
+SELECT
+    ab_variant                                 AS ab_variant,
+    COUNT(*)                                    AS order_count,
+    ROUND(AVG(net_amount), 2)                   AS avg_net_amount
+FROM shopsphere_orders
+WHERE ab_variant IN ('A', 'B')
+GROUP BY ab_variant
+ORDER BY ab_variant;
