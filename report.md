@@ -256,7 +256,9 @@ Ein eigenständiges, thematisches Dashboard, das ausschließlich der Verteilung 
 
 **Gestalterische Entscheidung.** Die ursprünglichen Versionen der LTV- und Conversion-Rate-Diagramme wurden als Streudiagramme erstellt, doch die Anordnung dreier Streudiagramme nebeneinander erzeugte visuelle Monotonie. Daher wurden die LTV- und Conversion-Rate-Diagramme bewusst in **Balkendiagramme** umgewandelt, während das Streudiagramm-Format nur für Budget vs. ROI beibehalten wurde (technisch gerechtfertigt, da es drei Dimensionen gleichzeitig zeigt: Budget, ROI, absoluten Umsatz über die Punktgröße). Für alle drei Diagramme wurde dasselbe Akzentfarbpaar "Gold / Lavendel" verwendet wie im übrigen Projekt (siehe Kapitel 5): Gold markiert die Top-2-Kanäle in jedem einzelnen Diagramm, sodass sich "Wer ist Spitzenreiter?" mit demselben visuellen Signal auf allen drei Diagrammen ablesen lässt.
 
-*Abbildung 8. Vollständige Ansicht des Dashboards Case_A_Marketing (ROI-Streudiagramm + LTV-Balken + Conversion-Balken) (Platzhalter zum Einfügen).*
+*Abbildung 8. Vollständige Ansicht des Dashboards Case_A_Marketing (ROI-Streudiagramm + LTV-Balken + Conversion-Balken).*
+
+![Abbildung 8](Tableau/Case_Marketing.png)
 
 ---
 
