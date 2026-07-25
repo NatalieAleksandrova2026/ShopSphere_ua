@@ -134,6 +134,7 @@ Alle Visualisierungen wurden in Tableau mit einem einheitlichen Farbsystem erste
 Der Umsatz nach Monat zeigt einen klaren Aufwärtstrend mit ausgeprägten Spitzen im Dezember jedes Jahres: Dezember 2022 — 81 Tsd. $, Dezember 2023 — 206 Tsd. $, Dezember 2024 — 746 Tsd. $. Die Form der Linie spricht eher für ein starkes generelles Umsatzwachstum des Unternehmens (besonders ausgeprägt ab 2024) als für ein rein wiederkehrendes, vom Unternehmensmaßstab unabhängiges saisonales Muster — die Schlussfolgerung wurde daher bewusst neutral formuliert ("Wachstum mit Spitze zum Jahresende"), ohne die zu selbstbewusste Aussage einer "klassischen Saisonalität".
 
 *Abbildung 1. Diagramm "Umsatzentwicklung 2022–2024" mit hervorgehobenen Dezember-Spitzen (Platzhalter zum Einfügen).*
+![Abbildung 1](Tableau/Screenshot_5.1.png)
 
 ### 5.2. Marketing: Budget vs. Effizienz (ROI)
 
