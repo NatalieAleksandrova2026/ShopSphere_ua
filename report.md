@@ -342,7 +342,9 @@ Nach Region konzentrieren sich die wertvollsten Kunden auf Europa und Nordamerik
 
 **Bindungsempfehlungen:** ein personalisiertes VIP-Programm für die Kombinationen Europa/Influencer und Südostasien/Organic; Skalierung von Influencer-Partnerschaften gezielt in Europa und Südostasien; zusätzliche Investitionen in organisches Wachstum (SEO, Content) für Südostasien; prioritärer Kundensupport für das gesamte Top-Segment; bewusster Verzicht auf Bindungsausgaben über Paid Search und Social Ads.
 
-*Abbildung 12. Heatmap "Kundenkonzentration nach Region und Kanal" (Platzhalter zum Einfügen).*
+*Abbildung 12. Heatmap "Kundenkonzentration nach Region und Kanal".*
+
+![Abbildung 12](Tableau/Screenshot_12.png)
 
 ---
 
