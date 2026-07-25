@@ -133,7 +133,7 @@ Alle Visualisierungen wurden in Tableau mit einem einheitlichen Farbsystem erste
 
 Der Umsatz nach Monat zeigt einen klaren Aufwärtstrend mit ausgeprägten Spitzen im Dezember jedes Jahres: Dezember 2022 — 81 Tsd. $, Dezember 2023 — 206 Tsd. $, Dezember 2024 — 746 Tsd. $. Die Form der Linie spricht eher für ein starkes generelles Umsatzwachstum des Unternehmens (besonders ausgeprägt ab 2024) als für ein rein wiederkehrendes, vom Unternehmensmaßstab unabhängiges saisonales Muster — die Schlussfolgerung wurde daher bewusst neutral formuliert ("Wachstum mit Spitze zum Jahresende"), ohne die zu selbstbewusste Aussage einer "klassischen Saisonalität".
 
-*Abbildung 1. Diagramm "Umsatzentwicklung 2022–2024" mit hervorgehobenen Dezember-Spitzen (Platzhalter zum Einfügen).*
+*Abbildung 1. Diagramm "Umsatzentwicklung 2022–2024" mit hervorgehobenen Dezember-Spitzen.*
 ![Abbildung 1](Tableau/Screenshot_5.1.png)
 
 ### 5.2. Marketing: Budget vs. Effizienz (ROI)
@@ -151,7 +151,8 @@ Der Umsatz nach Monat zeigt einen klaren Aufwärtstrend mit ausgeprägten Spitze
 
 Die zentrale Erkenntnis ist ein klarer inverser Zusammenhang: Je größer das Budget eines Kanals, desto niedriger sein ROI. Das größte Budget des Unternehmens fließt in den Kanal mit der schlechtesten Rendite (Paid Search), während der effizienteste Kanal (Organic) nur minimal finanziert wird. Ein Vorbehalt, der in Case A vertieft wird: Organic ist technisch kein "bezahlter" Kanal, weshalb sein hoher ROI teilweise durch das praktisch nicht vorhandene Budget erklärt wird — nicht dadurch, dass der Kanal beliebig durch höhere Investitionen skaliert werden könnte.
 
-*Abbildung 2. Streudiagramm "Budget vs. ROI" mit vier Quadranten (Platzhalter zum Einfügen).*
+*Abbildung 2. Streudiagramm "Budget vs. ROI" mit vier Quadranten.*
+![Abbildung 2](Tableau/Screenshot_5.2.png)
 
 ### 5.3. Kategorien: Umsatzvolumen vs. Profitabilität
 
