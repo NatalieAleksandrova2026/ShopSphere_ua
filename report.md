@@ -170,7 +170,9 @@ Die zentrale Erkenntnis ist ein klarer inverser Zusammenhang: Je größer das Bu
 
 Electronics ist ein Paradebeispiel für die "Umsatzillusion": Die Kategorie erzeugt über viermal so viel Umsatz wie jede andere und wirkt daher bei einem oberflächlichen Blick auf den Verkaufsbericht als wichtigste Kategorie überhaupt — ihre Marge ist jedoch die niedrigste unter allen sieben Kategorien. Am gegenüberliegenden Pol steht Beauty mit der höchsten Marge des Unternehmens (55 %) bei relativ geringem Volumen — der "versteckte Diamant", der in Case B eingehend behandelt wird.
 
-*Abbildung 3. Balkendiagramm der Kategorien "Umsatz vs. Marge nach Kategorie" (Platzhalter zum Einfügen).*
+*Abbildung 3. Balkendiagramm der Kategorien "Umsatz vs. Marge nach Kategorie".*
+
+![Abbildung 3](Tableau/Screenshot_5.3.png)
 
 ### 5.4. Regionen im Zeitverlauf
 
