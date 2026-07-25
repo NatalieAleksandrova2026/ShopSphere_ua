@@ -1,414 +1,414 @@
-# ShopSphere: комплексний аналіз бізнесу глобального онлайн-маркетплейсу
+# ShopSphere: Umfassende Geschäftsanalyse eines globalen Online-Marktplatzes
 
-**Фінальний аналітичний звіт**
+**Finaler Analysebericht**
 
 | | |
 |---|---|
-| **Проєкт** | Комплексний аналіз бізнесу глобального онлайн-маркетплейсу ShopSphere |
-| **Період даних** | 2022–2024 рр. |
-| **Роль** | Александрова Наталія |
-| **Інструменти** | SQL (SQLite), Tableau |
-| **Комплект здачі** | цей звіт (report.md) + Додаток Б (тексти SQL-запитів) + робоча книга Tableau (.twbx) з дашбордами |
+| **Projekt** | Umfassende Geschäftsanalyse des globalen Online-Marktplatzes ShopSphere |
+| **Datenzeitraum** | 2022–2024 |
+| **Rolle** | Datenanalyst |
+| **Tools** | SQL (SQLite), Tableau |
+| **Abgabeumfang** | dieser Bericht (report.md / report.docx) + Anhang B (SQL-Abfragetexte) + Tableau-Arbeitsmappe (.twbx) mit Dashboards |
 
 ---
 
-## Анотація
+## Zusammenfassung
 
-Аналіз даних ShopSphere за 2022–2024 роки показує компанію, що реально й стабільно зростає, проте це зростання розподілене вкрай нерівномірно. Найбільший маркетинговий бюджет спрямовано в найменш ефективний канал (Paid Search), тоді як канали з найвищою довгостроковою цінністю клієнтів (Influencer, Referral) отримують лише помірне фінансування. Категорія Electronics домінує за оборотом, але має найнижчу маржу в асортименті, тоді як категорія Beauty — навпаки, найприбутковіша. Southeast Asia росте вп'ятеро швидше за North America, хоча останній залишається найбільшим ринком за абсолютною виручкою. Лише 5% клієнтів формують 35% усієї виручки компанії. Клієнти, залучені систематичними знижками, приносять утричі менше виручки за весь час відносин, ніж інші клієнти. А/Б-тест нового checkout показав загальне покращення на 2%, проте цей результат майже повністю сформований невеликим сегментом нових клієнтів (+19%), тоді як для 93% замовлень (повторні клієнти) ефект статистично сумнівний (+0,9%). П'ять конкретних, підкріплених цифрами рекомендацій наведено в розділі 10.
+Die Analyse der ShopSphere-Daten für den Zeitraum 2022–2024 zeigt ein Unternehmen, das real und stabil wächst — dieses Wachstum ist jedoch höchst ungleich verteilt. Das größte Marketingbudget fließt in den am wenigsten effizienten Kanal (Paid Search), während Kanäle mit dem höchsten langfristigen Kundenwert (Influencer, Referral) nur moderat finanziert werden. Die Kategorie Electronics dominiert den Umsatz, weist jedoch die niedrigste Marge im gesamten Sortiment auf, während die Kategorie Beauty umgekehrt die profitabelste ist. Südostasien wächst fünfmal schneller als Nordamerika, obwohl Letzteres weiterhin der größte Markt nach absolutem Umsatz bleibt. Lediglich 5 % der Kunden erwirtschaften 35 % des gesamten Umsatzes. Kunden, die über systematische Rabatte gewonnen wurden, generieren über die gesamte Kundenbeziehung hinweg dreimal weniger Umsatz als übrige Kunden. Der A/B-Test des neuen Checkouts zeigte eine Gesamtverbesserung von 2 %, dieses Ergebnis wird jedoch fast vollständig von einem kleinen Segment neuer Kunden getragen (+19 %), während der Effekt bei 93 % der Bestellungen (Bestandskunden) statistisch fraglich ist (+0,9 %). Fünf konkrete, zahlenbasierte Handlungsempfehlungen finden sich in Kapitel 10.
 
-**Ключові слова:** аналіз даних, SQL, Tableau, дашборд, ROI, ROAS, LTV, воронка конверсії, принцип Парето, A/B-тестування, парадокс Сімпсона, e-commerce.
+**Schlüsselwörter:** Datenanalyse, SQL, Tableau, Dashboard, ROI, ROAS, LTV, Conversion-Funnel, Pareto-Prinzip, A/B-Testing, Simpson-Paradoxon, E-Commerce.
 
-**Таблиця 0.** Ключові показники проєкту — швидкий довідник
+**Tabelle 0.** Wichtigste Kennzahlen des Projekts — Kurzübersicht
 
-| Показник | Значення |
+| Kennzahl | Wert |
 |---|---|
-| Загальна виручка (2022–2024) | 3 474 тис. $ |
-| Кількість замовлень | 12 274 |
-| Середній чек | 283 $ |
-| Частка повернень | 9,77% |
-| Частка виручки від топ-5% клієнтів | 35,1% |
-| Найшвидше зростаючий регіон | Southeast Asia (+473,9% YoY) |
-| Найбільший бюджет / найнижчий ROI серед каналів | Paid Search (≈ 451 тис. $ / 1,3x) |
-| Найвища маржа / найнижча маржа серед категорій | Beauty (55%) / Electronics (12%) |
-| Різниця у виручці: клієнти зі знижками vs решта | 384 $ проти 1 261 $ (у 3,3 раза) |
-| Ефект A/B-тесту: нові клієнти vs повторні | +19,2% проти +0,9% |
+| Gesamtumsatz (2022–2024) | 3.474 Tsd. $ |
+| Anzahl Bestellungen | 12.274 |
+| Durchschnittlicher Bestellwert | 283 $ |
+| Retourenquote | 9,77 % |
+| Umsatzanteil der Top-5-%-Kunden | 35,1 % |
+| Am schnellsten wachsende Region | Südostasien (+473,9 % YoY) |
+| Größtes Budget / niedrigster ROI unter den Kanälen | Paid Search (≈ 451 Tsd. $ / 1,3x) |
+| Höchste Marge / niedrigste Marge unter den Kategorien | Beauty (55 %) / Electronics (12 %) |
+| Umsatzunterschied: Rabatt-Kunden vs. übrige Kunden | 384 $ vs. 1.261 $ (Faktor 3,3) |
+| Effekt des A/B-Tests: Neukunden vs. Bestandskunden | +19,2 % vs. +0,9 % |
 
 ---
 
-## Зміст
+## Inhaltsverzeichnis
 
-1. Запит CEO та структура звіту
-2. Перелік умовних скорочень
-3. Вступ, мета проєкту та джерела даних
-4. Розділ 1. SQL: підготовка даних
-5. Розділ 2. Візуалізації
-6. Розділ 3. Інтерактивні дашборди для CEO
-7. Розділ 4. Стратегічні бізнес-кейси
-8. Розділ 5. Статистичне мислення: A/B-експеримент
-9. Обмеження аналізу
-10. Висновки та рекомендації
-11. Додаток А: перелік рисунків (скріншотів) для вставки
-12. Додаток Б: тексти SQL-запитів
-13. Додаток В [РЕЗЕРВ]: розділ для Python-проєкту
+1. Anliegen der CEO und Aufbau des Berichts
+2. Verzeichnis der Abkürzungen
+3. Einleitung, Projektziel und Datenquellen
+4. Kapitel 1. SQL: Datenaufbereitung
+5. Kapitel 2. Visualisierungen
+6. Kapitel 3. Interaktive Dashboards für die CEO
+7. Kapitel 4. Strategische Business Cases
+8. Kapitel 5. Statistisches Denken: das A/B-Experiment
+9. Grenzen der Analyse
+10. Schlussfolgerungen und Handlungsempfehlungen
+11. Anhang A: Verzeichnis der einzufügenden Abbildungen (Screenshots)
+12. Anhang B: SQL-Abfragetexte
+13. Anhang C [RESERVIERT]: Kapitel für das Python-Projekt
 
 ---
 
-## 1. Запит CEO та структура звіту
+## 1. Anliegen der CEO und Aufbau des Berichts
 
-На стратегічній сесії CEO сформулювала запит своїми словами: *"Ми ростемо, але я не розумію нашого бізнесу до кінця. Куди йдуть маркетингові гроші й чи ефективно? Хто наші найцінніші клієнти? Які категорії справді прибуткові, а які лише створюють ілюзію обсягу? Які регіони — наше майбутнє? І я чула, продуктова команда запускала якийсь експеримент на checkout — спрацював він чи ні?"*
+In der Strategiesitzung formulierte die CEO ihr Anliegen in eigenen Worten: *"Wir wachsen, aber ich verstehe unser Geschäft nicht vollständig. Wohin fließt das Marketingbudget, und ist es effizient eingesetzt? Wer sind unsere wertvollsten Kunden? Welche Kategorien sind wirklich profitabel, und welche erzeugen nur eine Umsatzillusion? Welche Regionen sind unsere Zukunft? Und ich habe gehört, das Produktteam hat ein Experiment am Checkout durchgeführt — hat es funktioniert oder nicht?"*
 
-Цей звіт побудований як пряма, послідовна відповідь на кожне із поставлених питань:
+Dieser Bericht ist als direkte, konsequente Antwort auf jede dieser Fragen aufgebaut:
 
-**Таблиця 1.** Відповідність запиту CEO та розділів звіту
+**Tabelle 1.** Zuordnung von CEO-Anliegen zu Berichtskapiteln
 
-| Запит CEO | Розділ звіту |
+| Anliegen der CEO | Berichtskapitel |
 |---|---|
-| Куди йдуть маркетингові гроші й чи ефективно? | п. 5.2 (ROI) + Кейс А (розділ 7) |
-| Хто наші найцінніші клієнти? | п. 5.5 (Парето) + профіль топ-5% клієнтів (розділ 7) |
-| Які категорії справді прибуткові, а які створюють ілюзію обсягу? | п. 5.3 + Кейс Б (розділ 7) |
-| Які регіони — наше майбутнє? | п. 5.4 (регіони в динаміці) |
-| Чи спрацював експеримент на checkout? | Розділ 8 (A/B-тест) |
-| *(додатково, поза первинним запитом)* Чи корисні знижки? | Кейс В (розділ 7) |
+| Wohin fließt das Marketingbudget, und ist es effizient? | Abschn. 5.2 (ROI) + Case A (Kapitel 7) |
+| Wer sind unsere wertvollsten Kunden? | Abschn. 5.5 (Pareto) + Profil der Top-5-%-Kunden (Kapitel 7) |
+| Welche Kategorien sind wirklich profitabel, welche erzeugen eine Umsatzillusion? | Abschn. 5.3 + Case B (Kapitel 7) |
+| Welche Regionen sind unsere Zukunft? | Abschn. 5.4 (Regionen im Zeitverlauf) |
+| Hat das Checkout-Experiment funktioniert? | Kapitel 8 (A/B-Test) |
+| *(zusätzlich, über die ursprüngliche Anfrage hinaus)* Sind Rabatte sinnvoll? | Case C (Kapitel 7) |
 
 ---
 
-## 2. Перелік умовних скорочень
+## 2. Verzeichnis der Abkürzungen
 
-| Скорочення | Розшифрування |
+| Abkürzung | Bedeutung |
 |---|---|
-| KPI | Key Performance Indicator — ключовий показник ефективності |
-| ROI | Return on Investment — тут: відношення приписаної виручки до бюджету (за строгою термінологією — ROAS, див. п. 4) |
-| ROAS | Return on Ad Spend — виручка на кожен долар рекламних витрат |
-| LTV | Customer Lifetime Value — пожиттєва цінність клієнта |
-| CTR | Click-Through Rate — частка показів реклами, що перетворилась на клік |
-| YoY | Year-over-Year — рік до року (темп зростання) |
-| A/B-тест | Порівняльний експеримент із двома варіантами (A — контроль, B — новий варіант) |
-| CTE | Common Table Expression — іменований підзапит у SQL (конструкція `WITH ... AS (...)`) |
-| JOIN | Операція об'єднання рядків із кількох таблиць SQL за ключем |
-| NTILE | Віконна функція SQL для поділу впорядкованих рядків на рівні групи (процентилі) |
+| KPI | Key Performance Indicator — zentrale Leistungskennzahl |
+| ROI | Return on Investment — hier: Verhältnis von zugeordnetem Umsatz zu Budget (streng genommen ROAS, siehe Kapitel 4) |
+| ROAS | Return on Ad Spend — Umsatz je investiertem Werbedollar |
+| LTV | Customer Lifetime Value — Kundenlebenszeitwert |
+| CTR | Click-Through Rate — Anteil der Werbeeinblendungen, die zu einem Klick führen |
+| YoY | Year-over-Year — Vorjahresvergleich (Wachstumsrate) |
+| A/B-Test | Vergleichsexperiment mit zwei Varianten (A — Kontrollgruppe, B — neue Variante) |
+| CTE | Common Table Expression — benannte Unterabfrage in SQL (Konstrukt `WITH ... AS (...)`) |
+| JOIN | SQL-Operation zur Verknüpfung von Zeilen mehrerer Tabellen über einen Schlüssel |
+| NTILE | SQL-Fensterfunktion zur Aufteilung sortierter Zeilen in gleich große Gruppen (Perzentile) |
 
 ---
 
-## 3. Вступ, мета проєкту та джерела даних
+## 3. Einleitung, Projektziel und Datenquellen
 
-CEO компанії ShopSphere звернулася до аналітичної команди з чітким запитом зрозуміти бізнес глибше за поверхневими цифрами зростання (див. розділ 1). Щоб відповісти на нього обґрунтовано, а не інтуїтивно, було проведено повний аналітичний цикл: підготовку даних через SQL із коректними JOIN та підзапитами, побудову понад десяти візуалізацій у Tableau, збірку двох інтерактивних дашбордів із робочими фільтрами, і застосування статистичного мислення до трьох бізнес-кейсів та A/B-експерименту.
+Die CEO von ShopSphere wandte sich mit einem klaren Anliegen an das Analyseteam: das Geschäft jenseits oberflächlicher Wachstumszahlen tiefer zu verstehen (siehe Kapitel 1). Um dies fundiert und nicht intuitiv zu beantworten, wurde ein vollständiger Analysezyklus durchgeführt: Datenaufbereitung mittels SQL mit korrekten JOINs und Unterabfragen, Erstellung von mehr als zehn Visualisierungen in Tableau, Zusammenstellung zweier interaktiver Dashboards mit funktionsfähigen Filtern sowie Anwendung statistischen Denkens auf drei Business Cases und ein A/B-Experiment.
 
-**Джерела даних.** Аналіз охоплює п'ять пов'язаних таблиць за 2022–2024 роки:
+**Datenquellen.** Die Analyse umfasst fünf verknüpfte Tabellen für den Zeitraum 2022–2024:
 
-- `shopsphere_customers` — 3 000 клієнтів (регіон, країна, вік, стать, канал залучення, дата реєстрації);
-- `shopsphere_products` — 250 товарів у 7 категоріях (ціна, собівартість, маржа);
-- `shopsphere_orders` — близько 12 300 замовлень (головна таблиця фактів);
-- `shopsphere_order_items` — близько 26 000 позицій замовлень;
-- `shopsphere_marketing` — 216 маркетингових кампаній у розрізі канал × місяць.
+- `shopsphere_customers` — 3.000 Kunden (Region, Land, Alter, Geschlecht, Akquisitionskanal, Registrierungsdatum);
+- `shopsphere_products` — 250 Produkte in 7 Kategorien (Preis, Selbstkosten, Marge);
+- `shopsphere_orders` — ca. 12.300 Bestellungen (zentrale Faktentabelle);
+- `shopsphere_order_items` — ca. 26.000 Bestellpositionen;
+- `shopsphere_marketing` — 216 Marketingkampagnen, aufgeschlüsselt nach Kanal × Monat.
 
-A/Б-експеримент над дизайном checkout діє лише для замовлень з 1 червня 2024 року (поле `ab_variant`).
+Das A/B-Experiment zum Checkout-Design gilt ausschließlich für Bestellungen ab dem 1. Juni 2024 (Feld `ab_variant`).
 
-**Методологічний принцип.** Жоден висновок у цьому звіті не приймається на основі лише одного узагальненого показника — там, де це доречно, дані розбивались на підгрупи (за роком, регіоном, каналом, типом клієнта), щоб перевірити, чи не приховує загальне середнє важливу неоднорідність. Цей принцип особливо наочно проявляється в розділі 8.
-
----
-
-## 4. Розділ 1. SQL: підготовка даних
-
-У цьому розділі підготовлено набір SQL-запитів, що об'єднують дані з кількох таблиць через JOIN, підзапити та віконні функції (`NTILE`). Кожен запит створений як основа для конкретної подальшої візуалізації або аналітичного висновку, тому результати наведені й проаналізовані безпосередньо в розділах 5 та 7, а повні тексти запитів — у Додатку Б.
-
-**1.1. Виручка, замовлення та середній чек за регіоном і роком.** JOIN таблиць `orders` і `customers` за `customer_id`; агрегація суми виручки, кількості замовлень та зваженого середнього чека. Дані стали основою для аналізу регіональної динаміки (п. 5.4) та KPI-карток головного дашборду.
-
-**1.2. Топ-10 клієнтів за витратами.** Групування замовлень за клієнтом із підтягуванням регіону та каналу залучення. Свідоме застереження щодо якості аналізу: розрахунок враховує всі замовлення, включно з потенційно поверненими.
-
-**1.3. Виручка, маржа та частка повернень за категоріями.** Четверний JOIN (`order_items` → `products` → `orders` → `customers`) для об'єднання категорії товару з маржею, регіоном і статусом повернення. Частка повернень рахується через кількість повернених і загальних унікальних замовлень окремо (`COUNT(DISTINCT order_id)`), а не через готовий відсоток — це дозволяє коректно перераховувати показник під будь-якими фільтрами в Tableau. Коректність усіх JOIN попередньо перевірена контрольним запитом (`LEFT JOIN` з перевіркою на `NULL`), який підтвердив відсутність "осиротілих" записів.
-
-**1.4. Клієнти з витратами вище середнього.** Двоетапний розрахунок через CTE: сума витрат кожного клієнта, потім порівняння із середнім по базі через скалярний підзапит. Точний розрахунок цієї концентрації через процентильний розподіл виконано окремо в п. 5.5 (принцип Парето).
-
-**1.5. ROI маркетингових каналів.** Агрегація бюджету та приписаної виручки за каналом. ROI розраховано як **відношення сум** (`SUM(revenue) / SUM(budget)`), а не як середнє арифметичне від окремих щомісячних значень — другий підхід дав би невиправдано велику вагу місяцям із малим бюджетом.
-
-> **Термінологічне уточнення.** Показник, позначений у завданні як "ROI" (виручка ÷ бюджет), за строгою фінансовою термінологією є **ROAS**, оскільки не враховує собівартість проданих товарів. Назва "ROI" збережена для відповідності формулюванню завдання — це свідоме спрощення, а не помилка.
+**Methodisches Prinzip.** Keine Schlussfolgerung in diesem Bericht stützt sich allein auf eine einzelne aggregierte Kennzahl — wo sinnvoll, wurden die Daten in Untergruppen aufgeschlüsselt (nach Jahr, Region, Kanal, Kundentyp), um zu prüfen, ob der Gesamtdurchschnitt eine wichtige Heterogenität verdeckt. Dieses Prinzip zeigt sich besonders deutlich in Kapitel 8.
 
 ---
 
-## 5. Розділ 2. Візуалізації
+## 4. Kapitel 1. SQL: Datenaufbereitung
 
-Усі візуалізації побудовано в Tableau з єдиною системою кольорів. **Регіони** зберігають окрему багатоколірну холодну гаму (синій / бірюзовий / зелений / фіолетовий) — по одному кольору на кожен із п'яти регіонів, оскільки на відповідному графіку (п. 5.4) важливо розрізняти всі п'ять ліній одночасно. **Усі інші графіки** (категорії товарів, маркетингові канали, ROI, LTV, воронка конверсії, сегменти знижок) використовують єдину бінарну акцентну пару **"золото / лаванда"**: золотим кольором позначено топ-1–3 позиції на кожному конкретному графіку (свої лідери для кожної метрики), лавандовим — решту. Такий підхід узгоджено застосовано в усьому проєкті, щоб один і той самий візуальний сигнал ("золотий колір = лідер") однаково зчитувався на будь-якому графіку, незалежно від того, яку саме метрику він показує.
+In diesem Kapitel wurde eine Reihe von SQL-Abfragen erstellt, die Daten aus mehreren Tabellen über JOINs, Unterabfragen und Fensterfunktionen (`NTILE`) zusammenführen. Jede Abfrage bildet die Grundlage für eine konkrete Visualisierung oder Schlussfolgerung; die Ergebnisse werden daher unmittelbar in den Kapiteln 5 und 7 dargestellt und analysiert, die vollständigen Abfragetexte finden sich in Anhang B.
 
-### 5.1. Сезонність виручки по місяцях (2022–2024)
+**1.1. Umsatz, Bestellungen und durchschnittlicher Bestellwert nach Region und Jahr.** JOIN der Tabellen `orders` und `customers` über `customer_id`; Aggregation von Umsatzsumme, Bestellanzahl und gewichtetem durchschnittlichem Bestellwert. Diese Daten bildeten die Grundlage für die Analyse der regionalen Dynamik (Abschn. 5.4) sowie für die KPI-Kacheln des Haupt-Dashboards.
 
-Графік виручки по місяцях демонструє висхідний тренд із вираженими піками у грудні кожного року: грудень 2022 — 81 тис. $, грудень 2023 — 206 тис. $, грудень 2024 — 746 тис. $. Форма лінії свідчить радше про потужне загальне зростання бізнесу (особливо різке з 2024 року), ніж про суто повторюваний сезонний патерн, незалежний від масштабу компанії — тому висновок сформульовано нейтрально ("зростання з піком наприкінці року"), без надто впевненого твердження про "класичну сезонність".
+**1.2. Top-10-Kunden nach Ausgaben.** Gruppierung der Bestellungen nach Kunde unter Hinzuziehung von Region und Akquisitionskanal. Bewusster Hinweis zur Analysequalität: Die Berechnung berücksichtigt alle Bestellungen, einschließlich potenziell retournierter.
 
-*<img width="1103" height="724" alt="image" src="https://github.com/user-attachments/assets/f2477b49-60f7-4a17-b8a0-2518730b5daa" />*
+**1.3. Umsatz, Marge und Retourenquote nach Kategorien.** Vierfacher JOIN (`order_items` → `products` → `orders` → `customers`) zur Verknüpfung von Produktkategorie mit Marge, Region und Retourenstatus. Die Retourenquote wird über die Anzahl retournierter und gesamter eindeutiger Bestellungen separat berechnet (`COUNT(DISTINCT order_id)`), statt über einen fertigen Prozentwert — dies ermöglicht eine korrekte Neuberechnung der Kennzahl unter beliebigen Filtern in Tableau. Die Korrektheit aller JOINs wurde vorab durch eine Kontrollabfrage geprüft (`LEFT JOIN` mit `NULL`-Prüfung), die das Fehlen verwaister Datensätze bestätigte.
 
-### 5.2. Маркетинг: бюджет vs ефективність (ROI)
+**1.4. Kunden mit überdurchschnittlichen Ausgaben.** Zweistufige Berechnung über eine CTE: Ausgabensumme je Kunde, anschließend Vergleich mit dem Datenbankdurchschnitt über eine skalare Unterabfrage. Die exakte Berechnung dieser Konzentration über eine Perzentilverteilung erfolgt separat in Abschn. 5.5 (Pareto-Prinzip).
 
-**Таблиця 2.** ROI, бюджет та приписана виручка за маркетинговим каналом
+**1.5. ROI der Marketingkanäle.** Aggregation von Budget und zugeordnetem Umsatz je Kanal. Der ROI wurde als **Verhältnis von Summen** berechnet (`SUM(Umsatz) / SUM(Budget)`), nicht als arithmetisches Mittel einzelner monatlicher ROI-Werte — Letzteres hätte Monaten mit geringem Budget ein unangemessen hohes Gewicht verliehen.
 
-| Канал | ROI | Бюджет | Приписана виручка |
+> **Terminologische Klarstellung.** Die in der Aufgabenstellung als "ROI" bezeichnete Kennzahl (Umsatz ÷ Budget) entspricht nach strenger Finanzterminologie dem **ROAS**, da die Selbstkosten der verkauften Produkte nicht berücksichtigt werden. Die Bezeichnung "ROI" wurde beibehalten, um der Formulierung der Aufgabenstellung zu entsprechen — dies ist eine bewusste Vereinfachung, kein Fehler.
+
+---
+
+## 5. Kapitel 2. Visualisierungen
+
+Alle Visualisierungen wurden in Tableau mit einem einheitlichen Farbsystem erstellt. **Regionen** behalten eine eigene, mehrfarbige, kühle Farbpalette (Blau / Türkis / Grün / Violett) — je eine Farbe pro Region —, da im entsprechenden Diagramm (Abschn. 5.4) alle fünf Linien gleichzeitig unterschieden werden müssen. **Alle übrigen Diagramme** (Produktkategorien, Marketingkanäle, ROI, LTV, Conversion-Funnel, Rabattsegmente) verwenden ein einheitliches binäres Akzentfarbpaar **"Gold / Lavendel"**: Gold markiert die Top-1-bis-3-Positionen im jeweiligen Diagramm (eigene Spitzenreiter je Kennzahl), Lavendel den Rest. Dieser Ansatz wurde projektweit einheitlich angewendet, damit dasselbe visuelle Signal ("Gold = Spitzenreiter") auf jedem Diagramm gleich gelesen wird, unabhängig davon, welche Kennzahl es zeigt.
+
+### 5.1. Saisonalität des Umsatzes nach Monat (2022–2024)
+
+Der Umsatz nach Monat zeigt einen klaren Aufwärtstrend mit ausgeprägten Spitzen im Dezember jedes Jahres: Dezember 2022 — 81 Tsd. $, Dezember 2023 — 206 Tsd. $, Dezember 2024 — 746 Tsd. $. Die Form der Linie spricht eher für ein starkes generelles Umsatzwachstum des Unternehmens (besonders ausgeprägt ab 2024) als für ein rein wiederkehrendes, vom Unternehmensmaßstab unabhängiges saisonales Muster — die Schlussfolgerung wurde daher bewusst neutral formuliert ("Wachstum mit Spitze zum Jahresende"), ohne die zu selbstbewusste Aussage einer "klassischen Saisonalität".
+
+*Abbildung 1. Diagramm "Umsatzentwicklung 2022–2024" mit hervorgehobenen Dezember-Spitzen (Platzhalter zum Einfügen).*
+
+### 5.2. Marketing: Budget vs. Effizienz (ROI)
+
+**Tabelle 2.** ROI, Budget und zugeordneter Umsatz je Marketingkanal
+
+| Kanal | ROI | Budget | Zugeordneter Umsatz |
 |---|---|---|---|
-| Organic | 8,0x | ≈ 20 тис. $ | 163,4 тис. $ |
-| Email | 6,5x | ≈ 37 тис. $ | 243,6 тис. $ |
-| Influencer | 4,6x | ≈ 112 тис. $ | 519,5 тис. $ |
+| Organic | 8,0x | ≈ 20 Tsd. $ | 163,4 Tsd. $ |
+| Email | 6,5x | ≈ 37 Tsd. $ | 243,6 Tsd. $ |
+| Influencer | 4,6x | ≈ 112 Tsd. $ | 519,5 Tsd. $ |
 | Referral | 3,6x | — | — |
-| Social Ads | 2,1x | ≈ 300 тис. $ | — |
-| **Paid Search** | **1,3x** | **≈ 451 тис. $** | 598,7 тис. $ |
+| Social Ads | 2,1x | ≈ 300 Tsd. $ | — |
+| **Paid Search** | **1,3x** | **≈ 451 Tsd. $** | 598,7 Tsd. $ |
 
-Головний висновок — чітка обернена залежність: чим більший бюджет каналу, тим нижчий його ROI. Найбільший бюджет компанії спрямований у канал з найгіршою віддачею (Paid Search), тоді як найефективніший канал (Organic) отримує мінімальне фінансування. Застереження, розкрите глибше в Кейсі А: Organic технічно не є "платним" каналом, тому його високий ROI частково пояснюється практично нульовим бюджетом, а не тим, що канал можна необмежено масштабувати вкладеннями.
+Die zentrale Erkenntnis ist ein klarer inverser Zusammenhang: Je größer das Budget eines Kanals, desto niedriger sein ROI. Das größte Budget des Unternehmens fließt in den Kanal mit der schlechtesten Rendite (Paid Search), während der effizienteste Kanal (Organic) nur minimal finanziert wird. Ein Vorbehalt, der in Case A vertieft wird: Organic ist technisch kein "bezahlter" Kanal, weshalb sein hoher ROI teilweise durch das praktisch nicht vorhandene Budget erklärt wird — nicht dadurch, dass der Kanal beliebig durch höhere Investitionen skaliert werden könnte.
 
-*Рисунок 2. Scatter-графік "Budget vs ROI" з чотирма квадрантами (місце для вставки).*
+*Abbildung 2. Streudiagramm "Budget vs. ROI" mit vier Quadranten (Platzhalter zum Einfügen).*
 
-### 5.3. Категорії: обсяг vs прибутковість
+### 5.3. Kategorien: Umsatzvolumen vs. Profitabilität
 
-**Таблиця 3.** Виручка, маржа та частка повернень за категоріями товарів
+**Tabelle 3.** Umsatz, Marge und Retourenquote nach Produktkategorie
 
-| Категорія | Виручка | Маржа | Частка повернень |
+| Kategorie | Umsatz | Marge | Retourenquote |
 |---|---|---|---|
-| Electronics | ≈ 2 098 тис. $ (найбільша) | **12% (найнижча)** | — |
-| Home & Kitchen | ≈ 600 тис. $ | 35% | ≈ 10,3% |
-| Clothing | ≈ 200 тис. $ | 45% | — |
-| Sports | ≈ 350 тис. $ | 30% | — |
-| **Beauty** | ≈ 200 тис. $ | **55% (найвища)** | ≈ 10,0% |
-| Toys | ≈ 150 тис. $ | 40% | — |
-| Books | ≈ 100 тис. $ (найменша) | 25% | — |
+| Electronics | ≈ 2.098 Tsd. $ (höchster) | **12 % (niedrigste)** | — |
+| Home & Kitchen | ≈ 600 Tsd. $ | 35 % | ≈ 10,3 % |
+| Clothing | ≈ 200 Tsd. $ | 45 % | — |
+| Sports | ≈ 350 Tsd. $ | 30 % | — |
+| **Beauty** | ≈ 200 Tsd. $ | **55 % (höchste)** | ≈ 10,0 % |
+| Toys | ≈ 150 Tsd. $ | 40 % | — |
+| Books | ≈ 100 Tsd. $ (niedrigster) | 25 % | — |
 
-Electronics — класичний приклад "ілюзії обсягу": категорія генерує понад у чотири рази більше виручки за будь-яку іншу, і саме тому виглядає найважливішою при поверховому погляді на звіт про продажі, проте її маржа — найнижча серед усіх семи категорій. На протилежному полюсі — Beauty з найвищою маржею компанії (55%) при відносно скромному обсязі — "прихований діамант", детально розкритий у Кейсі Б.
+Electronics ist ein Paradebeispiel für die "Umsatzillusion": Die Kategorie erzeugt über viermal so viel Umsatz wie jede andere und wirkt daher bei einem oberflächlichen Blick auf den Verkaufsbericht als wichtigste Kategorie überhaupt — ihre Marge ist jedoch die niedrigste unter allen sieben Kategorien. Am gegenüberliegenden Pol steht Beauty mit der höchsten Marge des Unternehmens (55 %) bei relativ geringem Volumen — der "versteckte Diamant", der in Case B eingehend behandelt wird.
 
-*Рисунок 3. Bar-графік категорій "Umsatz vs. Marge nach Kategorie" (місце для вставки).*
+*Abbildung 3. Balkendiagramm der Kategorien "Umsatz vs. Marge nach Kategorie" (Platzhalter zum Einfügen).*
 
-### 5.4. Регіони в динаміці
+### 5.4. Regionen im Zeitverlauf
 
-**Таблиця 4.** Виручка та темп зростання за регіоном
+**Tabelle 4.** Umsatz und Wachstumsrate nach Region
 
-| Регіон | Виручка 2024 | Зростання YoY (2023→2024) |
+| Region | Umsatz 2024 | Wachstum YoY (2023→2024) |
 |---|---|---|
-| North America | 718,7 тис. $ (найбільша) | +204,9% |
-| **Southeast Asia** | 613,9 тис. $ | **+473,9% (найшвидше)** |
-| Europe | 545,6 тис. $ | +73,2% (найповільніше) |
-| Latin America | 321,4 тис. $ | +358% |
-| Middle East | 281,1 тис. $ | +424,9% |
+| Nordamerika | 718,7 Tsd. $ (höchster) | +204,9 % |
+| **Südostasien** | 613,9 Tsd. $ | **+473,9 % (am schnellsten)** |
+| Europa | 545,6 Tsd. $ | +73,2 % (am langsamsten) |
+| Lateinamerika | 321,4 Tsd. $ | +358 % |
+| Naher Osten | 281,1 Tsd. $ | +424,9 % |
 
-Ключовий інсайт — розбіжність між "найбільшим" і "найшвидшим" регіоном: North America лідирує за абсолютною виручкою як зрілий ринок, але саме Southeast Asia демонструє вибуховий темп зростання. Методологічне застереження: високі відсотки зростання (474%, 425%, 358%) частково пояснюються ефектом низької бази 2022 року — навіть помірний абсолютний приріст дає великий відсотковий результат, що не применшує значущість знахідки, але додає до неї потрібний контекст.
+Die zentrale Erkenntnis ist die Diskrepanz zwischen der "größten" und der "am schnellsten wachsenden" Region: Nordamerika führt als reifer Markt beim absoluten Umsatz, doch gerade Südostasien zeigt ein explosionsartiges Wachstumstempo. Methodischer Hinweis: Die hohen Wachstumsraten (474 %, 425 %, 358 %) erklären sich teilweise durch den Basiseffekt eines niedrigen Ausgangsumsatzes im Jahr 2022 — selbst ein moderater absoluter Zuwachs ergibt dadurch ein hohes prozentuales Ergebnis. Dies schmälert die Bedeutung des Befunds nicht, liefert ihm aber den nötigen Kontext.
 
-*Рисунок 4. Multi-line графік "Umsatzentwicklung nach Region" (місце для вставки).*
+*Abbildung 4. Mehrlinien-Diagramm "Umsatzentwicklung nach Region" (Platzhalter zum Einfügen).*
 
-### 5.5. Внесок клієнтів (принцип Парето)
+### 5.5. Kundenbeitrag (Pareto-Prinzip)
 
-Топ-5% клієнтів компанії (150 осіб із 3 000) дають **35,1% усієї чистої виручки** (1 218 211 $) — результат підтверджено двома незалежними розрахунками (просте порівняння "топ-5% проти решти" та кумулятивна крива Парето), які дали ідентичний результат. Решта 95% клієнтів формують 64,9% виручки. Це м'якша концентрація, ніж класичне правило "20% клієнтів дають 80% виручки", проте кожен клієнт із топ-5% у середньому приносить компанії приблизно у сім разів більше, ніж типовий клієнт. Клієнтська база компанії відносно диверсифікована — втрата кількох окремих клієнтів не створює катастрофічного ризику для бізнесу, — але топ-сегмент заслуговує на окрему програму утримання (розділ 7).
+Die Top-5-%-Kunden des Unternehmens (150 von 3.000 Personen) erwirtschaften **35,1 % des gesamten Nettoumsatzes** (1.218.211 $) — dieses Ergebnis wurde durch zwei unabhängige Berechnungen bestätigt (einfacher Vergleich "Top 5 % vs. Rest" sowie kumulative Pareto-Kurve), die zu einem identischen Ergebnis führten. Die übrigen 95 % der Kunden erwirtschaften 64,9 % des Umsatzes. Dies ist eine mildere Konzentration als die klassische Regel "20 % der Kunden erwirtschaften 80 % des Umsatzes", dennoch bringt jeder Top-5-%-Kunde im Durchschnitt etwa siebenmal mehr ein als ein typischer Kunde. Die Kundenbasis des Unternehmens ist relativ diversifiziert — der Verlust einzelner Kunden stellt kein katastrophales Geschäftsrisiko dar —, dennoch verdient das Top-Segment ein eigenes Bindungsprogramm (Kapitel 7).
 
-*Рисунок 5. Кумулятивна крива Парето з позначкою 80%-порогу (місце для вставки).*
+*Abbildung 5. Kumulative Pareto-Kurve mit Markierung der 80-%-Schwelle (Platzhalter zum Einfügen).*
 
-### 5.6. Творчий розділ — воронка конверсії за каналом залучення (CTR і Conversion Rate)
+### 5.6. Kreativkapitel — Conversion-Funnel nach Akquisitionskanal (CTR und Conversion Rate)
 
-Розділ навмисно виходить за межі вже дослідженого зрізу маркетингових кампаній (п. 5.2) і аналізує новий вимір даних — ефективність воронки кліків для кожного каналу: CTR (частка показів, що перетворилась на клік) і Conversion Rate (частка кліків, що перетворилась на покупку).
+Dieses Kapitel geht bewusst über den bereits untersuchten Bereich der Marketingkampagnen (Abschn. 5.2) hinaus und analysiert eine neue Datendimension — die Effizienz des Klick-Funnels je Kanal: CTR (Anteil der Einblendungen, die zu einem Klick führen) und Conversion Rate (Anteil der Klicks, die zu einem Kauf führen).
 
-**Таблиця 5.** Conversion Rate за каналом
+**Tabelle 5.** Conversion Rate nach Kanal
 
-| Канал | Conversion Rate |
+| Kanal | Conversion Rate |
 |---|---|
-| **Organic** | **1,6% (найвища)** |
-| Email | 1,2% |
-| Influencer | 0,9% |
-| Referral | 0,6% |
-| Social Ads | 0,4% |
-| **Paid Search** | **0,2% (найнижча)** |
+| **Organic** | **1,6 % (höchste)** |
+| Email | 1,2 % |
+| Influencer | 0,9 % |
+| Referral | 0,6 % |
+| Social Ads | 0,4 % |
+| **Paid Search** | **0,2 % (niedrigste)** |
 
-**Заголовок графіка:** "Konversionsrate im Kanalvergleich"
-**Висновок-підзаголовок:** "Organic und Email konvertieren Klicks am besten — Paid Search verliert die meisten"
+**Diagrammtitel:** "Konversionsrate im Kanalvergleich"
+**Untertitel-Erkenntnis:** "Organic und Email konvertieren Klicks am besten — Paid Search verliert die meisten"
 
-Головний інсайт — механізм, що пояснює низький ROI Paid Search і Social Ads (п. 5.2): обидва канали генерують клікабельну рекламу, проте переважна більшість кліків не перетворюється на покупку — гроші компанії буквально "губляться" на етапі "клік → покупка". Organic, навпаки, має найвищу конверсію при відносно низькому CTR — органічний трафік менш численний, але значно якісніший у момент прийняття рішення про покупку. Це спостереження напряму доповнює висновки Кейсу А (розділ 7).
+Die zentrale Erkenntnis ist der Mechanismus, der den niedrigen ROI von Paid Search und Social Ads erklärt (Abschn. 5.2): Beide Kanäle erzeugen durchaus klickfreudige Werbung, doch der überwiegende Teil der Klicks führt nicht zu einem Kauf — das Geld des Unternehmens "versickert" buchstäblich auf der Etappe "Klick → Kauf". Organic hingegen weist bei relativ niedrigem CTR die höchste Conversion Rate auf — organischer Traffic ist zahlenmäßig geringer, aber im Moment der Kaufentscheidung deutlich qualitativ hochwertiger. Diese Beobachtung ergänzt unmittelbar die Erkenntnisse aus Case A (Kapitel 7).
 
-*Рисунок 6. Bar-графік "Konversionsrate im Kanalvergleich" (місце для вставки).*
-
----
-
-## 6. Розділ 3. Інтерактивні дашборди для CEO
-
-### 6.1. Головний дашборд — "Konzentration statt Streuverlust: Die Schlüsselhebel für künftiges Wachstum"
-
-Дашборд об'єднує чотири ключові візуалізації з розділу 5, обрані так, щоб кожна відповідала на конкретний запит CEO (розділ 1): сезонність та загальна динаміка виручки, регіони як драйвери майбутнього зростання, категорії товарів у розрізі обсягу й прибутковості, концентрація виручки серед найцінніших клієнтів.
-
-**Обов'язкові елементи:**
-- KPI-картки: загальна виручка — 3 474 тис. $, кількість замовлень — 12 274, середній чек — 283 $, частка повернень — 9,77%;
-- два робочі фільтри — рік і регіон, застосовані до всіх графіків, що містять відповідні поля;
-- єдина колірна й шрифтова система.
-
-**Логіка композиції.** Дашборд побудований за принципом "воронки деталізації" — від найзагальнішого рівня до найконкретнішого: KPI-картки дають загальний стан бізнесу одним поглядом; графік регіонів — найширший, географічний зріз ("де росте бізнес"); графік категорій пояснює механізми ефективності асортименту ("чому саме так"); графік концентрації клієнтів (Парето) замикає розповідь на найглибшому, персоналізованому рівні ("на кого спиратись у рішеннях"). Такий порядок відповідає логіці мислення керівника: спочатку масштаб, потім причини, потім конкретні люди.
-
-**Три інсайти за перші 30 секунд:**
-1. Southeast Asia росте найшвидше (+474% YoY), а не North America, який є лише найбільшим за абсолютною виручкою.
-2. Electronics домінує за виручкою, але має найнижчу маржу серед усіх категорій — класична "ілюзія обсягу".
-3. Лише 5% клієнтів компанії формують 35% усієї виручки.
-
-*Рисунок 7. Повний вигляд головного дашборду CEO_Dashboard (місце для вставки).*
-
-### 6.2. Дашборд для Кейсу А — "Marketingkanäle im Dreifach-Check"
-
-Окремий тематичний дашборд, присвячений виключно розподілу маркетингового бюджету. Рішення винести його окремо обґрунтоване тим, що аналіз тут ведеться на трьох незалежних рівнях одночасно (ROI кампаній, LTV клієнтів, воронка конверсії) — це самостійна, глибша історія, що заслуговує на окремий, сфокусований простір.
-
-**Підзаголовок дашборду:** *"Organic und Email liefern den höchsten ROI und die beste Conversion, Influencer und Referral bauen die treuesten und wertvollsten Kundenbeziehungen auf — nur Paid Search versagt auf allen drei Ebenen"* (Organic і Email дають найвищий ROI і найкращу конверсію, Influencer і Referral будують найлояльніших і найцінніших клієнтів — і лише Paid Search провалюється на всіх трьох рівнях).
-
-**Дизайнерське рішення.** Початкові версії графіків LTV і Conversion Rate були побудовані як scatter-графіки, проте розміщення трьох scatter-plot поруч створювало візуальну монотонність. Тому графіки LTV і Conversion Rate свідомо перебудовано на **bar chart**, залишивши scatter-формат лише для графіка Budget vs ROI (виправдано технічно, оскільки показує три виміри одночасно: бюджет, ROI, абсолютну виручку через розмір точки). Для всіх трьох графіків застосовано ту саму акцентну пару "золото / лаванда", що й на решті проєкту (див. п. 5): золотим кольором позначено топ-2 канали на кожному конкретному графіку, що дозволяє зчитувати "хто лідер" однаковим візуальним сигналом на всіх трьох графіках.
-
-*Рисунок 8. Повний вигляд дашборду Case_A_Marketing (ROI-scatter + LTV-bar + Conversion-bar) (місце для вставки).*
+*Abbildung 6. Balkendiagramm "Konversionsrate im Kanalvergleich" (Platzhalter zum Einfügen).*
 
 ---
 
-## 7. Розділ 4. Стратегічні бізнес-кейси
+## 6. Kapitel 3. Interaktive Dashboards für die CEO
 
-### 7.1. Кейс А. Куди вкладати маркетинговий бюджет?
+### 6.1. Haupt-Dashboard — "Konzentration statt Streuverlust: Die Schlüsselhebel für künftiges Wachstum"
 
-Найвищий ROI серед усіх шести каналів показує Organic (8,0x), проте бюджет цього каналу мінімальний (≈ 20 тис. $), оскільки органічний трафік не є класично оплачуваним каналом — його високий ROI частково "штучний" і не масштабується прямим збільшенням вкладень. Найнижчий ROI показує Paid Search (1,3x) — і саме туди спрямована найбільша частка бюджету компанії (≈ 451 тис. $). Це нерозумний розподіл ресурсів: графік бюджету проти ROI демонструє чітку обернену залежність.
+Das Dashboard vereint vier zentrale Visualisierungen aus Kapitel 5, ausgewählt so, dass jede ein konkretes Anliegen der CEO (Kapitel 1) beantwortet: Saisonalität und allgemeine Umsatzdynamik, Regionen als Treiber künftigen Wachstums, Produktkategorien im Verhältnis von Volumen und Profitabilität, sowie Umsatzkonzentration unter den wertvollsten Kunden.
 
-**Таблиця 6.** Порівняння каналів за ROI та довгостроковою цінністю клієнтів (LTV)
+**Pflichtelemente:**
+- KPI-Kacheln: Gesamtumsatz — 3.474 Tsd. $, Anzahl Bestellungen — 12.274, durchschnittlicher Bestellwert — 283 $, Retourenquote — 9,77 %;
+- zwei funktionsfähige Filter — Jahr und Region, angewendet auf alle Diagramme mit entsprechenden Feldern;
+- ein einheitliches Farb- und Schriftsystem.
 
-| Канал | ROI | Місце за ROI | LTV на клієнта | Місце за LTV | Замовлень на клієнта |
+**Kompositionslogik.** Das Dashboard folgt dem Prinzip eines "Detailtrichters" — von der allgemeinsten zur konkretesten Ebene: Die KPI-Kacheln vermitteln den Gesamtzustand des Geschäfts auf einen Blick; das Regionen-Diagramm bildet den breitesten, geografischen Ausschnitt ("Wo wächst das Geschäft?"); das Kategorien-Diagramm erklärt die Mechanismen der Sortimentseffizienz ("Warum ist das so?"); das Kundenkonzentrations-Diagramm (Pareto) schließt die Erzählung auf der tiefsten, personalisierten Ebene ("Auf wen sollten Entscheidungen gestützt werden?"). Diese Reihenfolge entspricht der Denklogik einer Führungskraft bei Entscheidungen: zunächst der Maßstab, dann die Ursachen, dann die konkreten Menschen.
+
+**Drei Erkenntnisse in den ersten 30 Sekunden:**
+1. Südostasien wächst am schnellsten (+474 % YoY), nicht Nordamerika, das lediglich beim absoluten Umsatz führt.
+2. Electronics dominiert den Umsatz, weist jedoch die niedrigste Marge unter allen Kategorien auf — die klassische "Umsatzillusion".
+3. Nur 5 % der Kunden erwirtschaften 35 % des gesamten Umsatzes.
+
+*Abbildung 7. Vollständige Ansicht des Haupt-Dashboards CEO_Dashboard (Platzhalter zum Einfügen).*
+
+### 6.2. Dashboard für Case A — "Marketingkanäle im Dreifach-Check"
+
+Ein eigenständiges, thematisches Dashboard, das ausschließlich der Verteilung des Marketingbudgets gewidmet ist. Die Entscheidung, es separat auszugliedern, beruht darauf, dass die Analyse hier auf drei unabhängigen Ebenen gleichzeitig erfolgt (Kampagnen-ROI, Kunden-LTV, Conversion-Funnel) — eine eigenständige, tiefere Erzählung, die einen eigenen, fokussierten Raum verdient.
+
+**Untertitel des Dashboards:** *"Organic und Email liefern den höchsten ROI und die beste Conversion, Influencer und Referral bauen die treuesten und wertvollsten Kundenbeziehungen auf — nur Paid Search versagt auf allen drei Ebenen."*
+
+**Gestalterische Entscheidung.** Die ursprünglichen Versionen der LTV- und Conversion-Rate-Diagramme wurden als Streudiagramme erstellt, doch die Anordnung dreier Streudiagramme nebeneinander erzeugte visuelle Monotonie. Daher wurden die LTV- und Conversion-Rate-Diagramme bewusst in **Balkendiagramme** umgewandelt, während das Streudiagramm-Format nur für Budget vs. ROI beibehalten wurde (technisch gerechtfertigt, da es drei Dimensionen gleichzeitig zeigt: Budget, ROI, absoluten Umsatz über die Punktgröße). Für alle drei Diagramme wurde dasselbe Akzentfarbpaar "Gold / Lavendel" verwendet wie im übrigen Projekt (siehe Kapitel 5): Gold markiert die Top-2-Kanäle in jedem einzelnen Diagramm, sodass sich "Wer ist Spitzenreiter?" mit demselben visuellen Signal auf allen drei Diagrammen ablesen lässt.
+
+*Abbildung 8. Vollständige Ansicht des Dashboards Case_A_Marketing (ROI-Streudiagramm + LTV-Balken + Conversion-Balken) (Platzhalter zum Einfügen).*
+
+---
+
+## 7. Kapitel 4. Strategische Business Cases
+
+### 7.1. Case A. Wohin sollte das Marketingbudget fließen?
+
+Den höchsten ROI unter allen sechs Kanälen zeigt Organic (8,0x), wobei das Budget dieses Kanals minimal ist (≈ 20 Tsd. $), da organischer Traffic kein klassisch bezahlter Kanal ist — sein hoher ROI ist teilweise "künstlich" und lässt sich nicht durch eine direkte Budgeterhöhung skalieren. Den niedrigsten ROI zeigt Paid Search (1,3x) — und genau dorthin fließt der größte Anteil des Unternehmensbudgets (≈ 451 Tsd. $). Dies ist eine unkluge Ressourcenverteilung: Das Budget-vs.-ROI-Diagramm zeigt einen klaren inversen Zusammenhang.
+
+**Tabelle 6.** Kanalvergleich nach ROI und langfristigem Kundenwert (LTV)
+
+| Kanal | ROI | Rang nach ROI | LTV je Kunde | Rang nach LTV | Bestellungen je Kunde |
 |---|---|---|---|---|---|
-| Organic | 8,0x | 1 | 1 316 $ | 3 | 4,7 |
-| Email | 6,5x | 2 | 1 074 $ | 4 | 4,0 |
-| **Influencer** | 4,6x | 3 | **1 986 $** | **1** | 6,6 |
-| **Referral** | 3,6x | 4 | **1 792 $** | **2** | ≈ 6,0 |
+| Organic | 8,0x | 1 | 1.316 $ | 3 | 4,7 |
+| Email | 6,5x | 2 | 1.074 $ | 4 | 4,0 |
+| **Influencer** | 4,6x | 3 | **1.986 $** | **1** | 6,6 |
+| **Referral** | 3,6x | 4 | **1.792 $** | **2** | ≈ 6,0 |
 | Social Ads | 2,1x | 5 | 822 $ | 5 | 3,0 |
 | **Paid Search** | 1,3x | **6** | **≈ 600 $** | **6** | 2,3 |
 
-Порівняння з LTV показує розбіжність, що не збігається з рейтингом за ROI. Influencer і Referral займають лише середні позиції за ROI (місця #3 і #4), проте саме вони формують найвищу пожиттєву цінність клієнтів — їхні клієнти роблять майже втричі більше повторних замовлень, ніж клієнти Paid Search (6,6–6,0 проти 2,3). Останній є єдиним каналом, що виявився аутсайдером одночасно за обома метриками — і, як показав аналіз воронки конверсії (п. 5.6), причина системна: лише 0,2% кліків цього каналу перетворюються на покупку, найгірший показник серед усіх шести каналів.
+Der Vergleich mit dem LTV offenbart eine Diskrepanz, die nicht mit dem ROI-Ranking übereinstimmt. Influencer und Referral belegen beim ROI nur mittlere Positionen (Rang 3 und 4), bilden jedoch den höchsten Kundenlebenszeitwert — ihre Kunden tätigen fast dreimal so viele Folgebestellungen wie Paid-Search-Kunden (6,6–6,0 gegenüber 2,3). Letzterer ist der einzige Kanal, der bei beiden Kennzahlen gleichzeitig als Schlusslicht abschneidet — und wie die Conversion-Funnel-Analyse zeigt (Abschn. 5.6), liegt die Ursache systemisch begründet vor: Nur 0,2 % der Klicks dieses Kanals führen zu einem Kauf, der schlechteste Wert unter allen sechs Kanälen.
 
-*Рисунок 9. Scatter-графік LTV vs кількість замовлень на клієнта за каналом (LTV_Kanal_Scatter) — візуально демонструє майже лінійну залежність між частотою повторних покупок і пожиттєвою цінністю клієнта (місце для вставки).*
+*Abbildung 9. Streudiagramm LTV vs. Bestellanzahl je Kunde nach Kanal (LTV_Kanal_Scatter) — veranschaulicht einen nahezu linearen Zusammenhang zwischen Wiederkaufhäufigkeit und Kundenlebenszeitwert (Platzhalter zum Einfügen).*
 
-*Рисунок 10. Bar-графік ранжування каналів за LTV (місце для вставки).*
+*Abbildung 10. Balkendiagramm zur Rangfolge der Kanäle nach LTV (Platzhalter zum Einfügen).*
 
-**Рекомендація з обґрунтуванням.** Скоротити бюджет Paid Search приблизно на 30–40%, оскільки цей канал одночасно неефективний на рівні ROI, LTV і механіки конверсії — ризик помилкового висновку мінімальний, адже підтверджений трьома незалежними способами вимірювання. Вивільнені кошти доцільно перерозподілити в Influencer та Referral. Бюджет Email — зберегти або незначно наростити; Organic — підтримувати опосередковано через SEO та контент-стратегію; Social Ads — критично переглянути як другий за розміром бюджету канал зі слабкими показниками на всіх рівнях.
+**Begründete Handlungsempfehlung.** Das Budget von Paid Search um etwa 30–40 % kürzen, da dieser Kanal auf der Ebene von ROI, LTV und Conversion-Mechanik gleichermaßen ineffizient ist — das Fehlerrisiko dieser Schlussfolgerung ist minimal, da sie durch drei unabhängige Messmethoden bestätigt wird. Die freiwerdenden Mittel sollten in Influencer und Referral umgeschichtet werden. Das Email-Budget beibehalten oder leicht erhöhen; Organic indirekt über SEO und Content-Strategie unterstützen; Social Ads als zweitgrößten Budgetposten mit schwachen Werten auf allen Ebenen kritisch überprüfen.
 
-**Ризики рекомендації.** По-перше, можлива атрибуція "першого дотику" — Paid Search може приводити нових клієнтів, які згодом конвертуються через інші канали; різке скорочення ризикує послабити всю воронку залучення. По-друге, Influencer і Referral мають обмежену масштабованість — найкращі партнерства, ймовірно, вже використані. По-третє, LTV розраховано без контролю на "вік" клієнтської когорти. По-четверте, скорочення бюджету під час високого сезону (четвертий квартал) може мати непропорційно негативний ефект.
+**Risiken der Handlungsempfehlung.** Erstens eine mögliche First-Touch-Attribution — Paid Search könnte neue Kunden anziehen, die später über andere Kanäle konvertieren; eine drastische Kürzung riskiert, den gesamten Akquisitions-Funnel zu schwächen. Zweitens verfügen Influencer und Referral über eine begrenzte Skalierbarkeit — die besten Partnerschaften sind vermutlich bereits ausgeschöpft. Drittens wurde der LTV ohne Kontrolle für das "Alter" der Kundenkohorte berechnet. Viertens könnte eine Budgetkürzung während der Hochsaison (viertes Quartal) einen unverhältnismäßig negativen Effekt haben.
 
-Усі три рівні аналізу цього кейсу — ROI (Таблиця 2, п. 5.2), LTV (Таблиця 6) і воронка конверсії (Таблиця 5, п. 5.6) — зведено разом на окремому дашборді Case_A_Marketing (Рисунок 8, п. 6.2), який слугує візуальним підсумком для презентації цього кейсу керівництву.
+Alle drei Analyseebenen dieses Cases — ROI (Tabelle 2, Abschn. 5.2), LTV (Tabelle 6) und Conversion-Funnel (Tabelle 5, Abschn. 5.6) — werden gemeinsam im separaten Dashboard Case_A_Marketing (Abbildung 8, Abschn. 6.2) zusammengeführt, das als visuelle Zusammenfassung für die Präsentation dieses Cases vor der Geschäftsführung dient.
 
-### 7.2. Кейс Б. Які категорії справді прибуткові?
+### 7.2. Case B. Welche Kategorien sind wirklich profitabel?
 
-Electronics — хрестоматійний приклад "ілюзії обсягу" (див. Таблицю 3 та Рисунок 3, п. 5.3): категорія генерує найбільшу виручку компанії (≈ 2 098 тис. $, у чотири рази більше за наступну за розміром категорію), проте її маржа — найнижча серед усіх семи категорій (12%). Компанія фактично "заробляє обсяг", а не гроші, і при орієнтації виключно на розмір обороту ця категорія отримує непропорційно багато уваги, полиць та маркетингового бюджету відносно реального прибутку.
+Electronics ist ein Paradebeispiel für die "Umsatzillusion" (siehe Tabelle 3 und Abbildung 3, Abschn. 5.3): Die Kategorie erzeugt den höchsten Umsatz des Unternehmens (≈ 2.098 Tsd. $, viermal so viel wie die nächstgrößere Kategorie), ihre Marge ist jedoch die niedrigste unter allen sieben Kategorien (12 %). Das Unternehmen "erwirtschaftet Volumen", nicht Geld — bei einer Ausrichtung ausschließlich am Umsatzvolumen erhält diese Kategorie unverhältnismäßig viel Aufmerksamkeit, Regalfläche und Marketingbudget im Verhältnis zum tatsächlichen Gewinn.
 
-Протилежний, "прихований діамант" — категорія Beauty з найвищою маржею компанії (55%) при відносно скромному обсязі виручки (≈ 200 тис. $) і низькій частці повернень (≈ 10%). Схожий, хоч менш виражений патерн демонструють Clothing (45%) і Toys (40%).
+Der gegenteilige, "versteckte Diamant" ist die Kategorie Beauty mit der höchsten Marge des Unternehmens (55 %) bei relativ bescheidenem Umsatzvolumen (≈ 200 Tsd. $) und niedriger Retourenquote (≈ 10 %). Ein ähnliches, wenn auch weniger ausgeprägtes Muster zeigen Clothing (45 %) und Toys (40 %).
 
-**Рекомендація.** Збільшити маркетингові інвестиції саме в Beauty, оскільки кожен додатковий долар виручки тут набагато цінніший, ніж в Electronics; перевірити представленість асортименту в каталозі й рекомендаціях сайту; розглянути крос-продажі з іншими категоріями; зберігати наявну якість товару (низькі повернення) при масштабуванні.
+**Handlungsempfehlung.** Die Marketinginvestitionen gezielt in Beauty erhöhen, da hier jeder zusätzliche Umsatzdollar deutlich wertvoller ist als bei Electronics; die Sortimentspräsenz im Katalog und in den Website-Empfehlungen überprüfen; Cross-Selling mit anderen Kategorien in Betracht ziehen; die vorhandene Produktqualität (niedrige Retourenquote) bei der Skalierung beibehalten.
 
-> **Методологічне обмеження.** Використана маржа — просте середнє по категорії (`AVG`), а не зважене за фактичним обсягом продажів кожного товару, тому для остаточного інвестиційного рішення варто додатково перевірити, чи не "тягне" середню маржу вгору один-два дорогі товари.
+> **Methodische Einschränkung.** Die verwendete Marge ist ein einfacher Kategoriedurchschnitt (`AVG`), nicht gewichtet nach dem tatsächlichen Verkaufsvolumen je Produkt. Für eine endgültige Investitionsentscheidung sollte zusätzlich geprüft werden, ob ein oder zwei hochpreisige Produkte den Durchschnitt nach oben "ziehen".
 
-### 7.3. Кейс В. Знижки та цінні клієнти
+### 7.3. Case C. Rabatte und wertvolle Kunden
 
-**Таблиця 7.** Клієнти зі знижками (>20%) проти решти бази
+**Tabelle 7.** Rabatt-Kunden (> 20 %) im Vergleich zur übrigen Kundenbasis
 
-| Метрика | Discount-Kunden (> 20%) | Übrige Kunden |
+| Kennzahl | Discount-Kunden (> 20 %) | Übrige Kunden |
 |---|---|---|
-| Кількість клієнтів | 352 | 2 648 |
-| Замовлень на клієнта | **2,17** | **4,35** |
-| Одноразові покупці | 88 (25%) | 439 (16,6%) |
-| Середні витрати за весь час | **384 $** | **1 261 $** |
+| Anzahl Kunden | 352 | 2.648 |
+| Bestellungen je Kunde | **2,17** | **4,35** |
+| Einmalkäufer | 88 (25 %) | 439 (16,6 %) |
+| Durchschnittliche Gesamtausgaben | **384 $** | **1.261 $** |
 
-Порівняння клієнтів, що купують переважно зі знижкою понад 20% (352 особи), з рештою бази (2 648 осіб) дає однозначний результат: дисконтні клієнти роблять удвічі менше замовлень, чверть із них (25%) стають одноразовими покупцями (проти 16,6% серед звичайних клієнтів), а за весь час відносин приносять компанії втричі менше виручки (384 $ проти 1 261 $).
+Der Vergleich von Kunden, die überwiegend mit einem Rabatt von über 20 % kaufen (352 Personen), mit der übrigen Kundenbasis (2.648 Personen) liefert ein eindeutiges Ergebnis: Rabatt-Kunden tätigen halb so viele Bestellungen, ein Viertel von ihnen (25 %) wird zu Einmalkäufern (gegenüber 16,6 % bei regulären Kunden), und über die gesamte Kundenbeziehung hinweg erwirtschaften sie dreimal weniger Umsatz (384 $ gegenüber 1.261 $).
 
-**Рекомендація.** Обмежити глибину й частоту знижок саме для нових клієнтів; використовувати знижки переважно як інструмент реактивації та утримання вже лояльних клієнтів, а не як основний канал первинного залучення — оскільки клієнти, залучені знижками, демонструють найгіршу економіку утримання серед усіх сегментів, досліджених у цьому проєкті.
+**Handlungsempfehlung.** Tiefe und Häufigkeit von Rabatten speziell für Neukunden begrenzen; Rabatte vorrangig als Instrument zur Reaktivierung und Bindung bereits loyaler Kunden einsetzen, nicht als primären Akquisitionskanal — da über Rabatte gewonnene Kunden von allen im Projekt untersuchten Segmenten die schwächste Bindungsökonomie aufweisen.
 
-*Рисунок 11. Dual-axis графік "Rabatt-Kunden bestellen seltener und geben weniger aus" (місце для вставки).*
+*Abbildung 11. Dual-Achsen-Diagramm "Rabatt-Kunden bestellen seltener und geben weniger aus" (Platzhalter zum Einfügen).*
 
-### 7.4. Профіль топ-5% клієнтів: хто вони і як їх утримати
+### 7.4. Profil der Top-5-%-Kunden: Wer sie sind und wie sie gebunden werden können
 
-**Таблиця 8.** Топ-5 комбінацій "регіон × канал" за виручкою серед топ-5% клієнтів
+**Tabelle 8.** Top-5-Kombinationen "Region × Kanal" nach Umsatz unter den Top-5-%-Kunden
 
-| Регіон | Канал | Виручка | Частка від виручки топ-5% |
+| Region | Kanal | Umsatz | Anteil am Umsatz der Top-5-% |
 |---|---|---|---|
-| Europe | Influencer | 125,9 тис. $ | 10% |
-| Southeast Asia | Organic | 117,1 тис. $ | 10% |
-| Southeast Asia | Influencer | 105,0 тис. $ | 9% |
-| North America | Influencer | 95,3 тис. $ | 8% |
-| North America | Organic | 89,3 тис. $ | 7% |
+| Europa | Influencer | 125,9 Tsd. $ | 10 % |
+| Südostasien | Organic | 117,1 Tsd. $ | 10 % |
+| Südostasien | Influencer | 105,0 Tsd. $ | 9 % |
+| Nordamerika | Influencer | 95,3 Tsd. $ | 8 % |
+| Nordamerika | Organic | 89,3 Tsd. $ | 7 % |
 
-Профілювання 150 клієнтів, що формують топ-5% бази й дають 35,1% виручки компанії (1 218 211 $), за регіоном та каналом залучення виявило чітку концентрацію: п'ять найсильніших комбінацій разом дають майже 44% усієї виручки топ-5% сегменту.
+Die Profilierung der 150 Kunden, die die Top-5-% der Basis bilden und 35,1 % des Unternehmensumsatzes erwirtschaften (1.218.211 $), nach Region und Akquisitionskanal zeigt eine deutliche Konzentration: Die fünf stärksten Kombinationen erwirtschaften zusammen fast 44 % des gesamten Umsatzes des Top-5-%-Segments.
 
-За регіоном найцінніші клієнти сконцентровані в Europe та North America (по 42 клієнти в кожному, разом 56% топ-сегменту), Southeast Asia посідає третє місце (38 клієнтів, 25%) — це особливо важливо, оскільки саме цей регіон одночасно є найшвидше зростаючим (п. 5.4), що означає подвійний сигнал для пріоритетних інвестицій. За каналом залучення домінують Influencer та Organic (разом ≈ 60% усіх найцінніших клієнтів), тоді як Paid Search і Social Ads практично відсутні серед топ-сегменту.
+Nach Region konzentrieren sich die wertvollsten Kunden auf Europa und Nordamerika (je 42 Kunden, zusammen 56 % des Top-Segments), Südostasien belegt Platz drei (38 Kunden, 25 %) — besonders relevant, da diese Region zugleich am schnellsten wächst (Abschn. 5.4), was ein doppeltes Signal für prioritäre Investitionen darstellt. Nach Akquisitionskanal dominieren Influencer und Organic (zusammen ≈ 60 % aller wertvollsten Kunden), während Paid Search und Social Ads im Top-Segment praktisch nicht vertreten sind.
 
-**Рекомендації з утримання:** персоналізована VIP-програма для комбінацій Europe/Influencer та Southeast Asia/Organic; масштабування партнерств з інфлюенсерами саме в Europe і Southeast Asia; додаткові інвестиції в органічний ріст (SEO, контент) для Southeast Asia; пріоритетна клієнтська підтримка для всього топ-сегменту; свідома відмова від витрат на утримання через Paid Search і Social Ads.
+**Bindungsempfehlungen:** ein personalisiertes VIP-Programm für die Kombinationen Europa/Influencer und Südostasien/Organic; Skalierung von Influencer-Partnerschaften gezielt in Europa und Südostasien; zusätzliche Investitionen in organisches Wachstum (SEO, Content) für Südostasien; prioritärer Kundensupport für das gesamte Top-Segment; bewusster Verzicht auf Bindungsausgaben über Paid Search und Social Ads.
 
-*Рисунок 12. Heatmap "Kundenkonzentration nach Region und Kanal" (місце для вставки).*
+*Abbildung 12. Heatmap "Kundenkonzentration nach Region und Kanal" (Platzhalter zum Einfügen).*
 
 ---
 
-## 8. Розділ 5. Статистичне мислення: A/B-експеримент
+## 8. Kapitel 5. Statistisches Denken: das A/B-Experiment
 
-Продуктова команда з 1 червня 2024 тестувала новий дизайн checkout: половина замовлень отримала стару версію (variant A), половина — нову (variant B). Завдання аналітика — не просто порівняти середні значення, а перевірити, чи не приховує загальне число важливу неоднорідність.
+Das Produktteam testete ab dem 1. Juni 2024 ein neues Checkout-Design: Die Hälfte der Bestellungen erhielt die alte Version (Variante A), die andere Hälfte die neue (Variante B). Die Aufgabe des Analysten besteht nicht darin, lediglich Durchschnittswerte zu vergleichen, sondern zu prüfen, ob eine Gesamtzahl eine wichtige Heterogenität verdeckt.
 
-**Перший, поверховий погляд.** Порівняння середнього чека на всіх замовленнях експерименту: variant A — 281,73 $ (3 681 замовлення), variant B — 287,27 $ (3 674 замовлення), різниця +1,97% на користь нової версії. Кількість замовлень у обох групах практично однакова, що підтверджує коректний, збалансований поділ трафіку. На цьому рівні напрошується висновок: новий checkout працює краще і його варто впровадити для всіх.
+**Erster, oberflächlicher Blick.** Der Vergleich des durchschnittlichen Bestellwerts über alle Bestellungen des Experiments: Variante A — 281,73 $ (3.681 Bestellungen), Variante B — 287,27 $ (3.674 Bestellungen), eine Differenz von +1,97 % zugunsten der neuen Version. Die Bestellanzahl ist in beiden Gruppen nahezu identisch, was eine korrekte, ausgewogene Traffic-Aufteilung bestätigt. Auf dieser Ebene drängt sich der Schluss auf: Der neue Checkout funktioniert besser und sollte für alle eingeführt werden.
 
-**Таблиця 9.** Середній чек за 4 підгрупами (нові / повторні клієнти × variant A/B)
+**Tabelle 9.** Durchschnittlicher Bestellwert nach 4 Untergruppen (Neu-/Bestandskunden × Variante A/B)
 
-| Група | Кількість замовлень | Середній чек |
+| Gruppe | Anzahl Bestellungen | Durchschnittlicher Bestellwert |
 |---|---|---|
-| A — нові клієнти | 264 | 223,30 $ |
-| B — нові клієнти | 256 | **266,21 $ (+19,2%)** |
-| A — повторні клієнти | 3 417 | 286,24 $ |
-| B — повторні клієнти | 3 418 | **288,85 $ (+0,9%)** |
+| A — Neukunden | 264 | 223,30 $ |
+| B — Neukunden | 256 | **266,21 $ (+19,2 %)** |
+| A — Bestandskunden | 3.417 | 286,24 $ |
+| B — Bestandskunden | 3.418 | **288,85 $ (+0,9 %)** |
 
-**Глибший аналіз.** Розбивши кожну групу на нових клієнтів (перше замовлення протягом ≈ 60 днів після реєстрації) і повторних, картина суттєво змінюється. Серед нових клієнтів середній чек зріс на 19,2% — сильний, практично значущий ефект. Серед повторних клієнтів, які становлять 93% замовлень експерименту (6 835 із 7 355), приріст лише 0,9% — настільки малий, що потребує окремої перевірки статистичної значущості.
+**Tiefergehende Analyse.** Teilt man jede Gruppe in Neukunden (erste Bestellung innerhalb von ≈ 60 Tagen nach der Registrierung) und Bestandskunden auf, ändert sich das Bild erheblich. Bei Neukunden stieg der durchschnittliche Bestellwert um 19,2 % — ein starker, praktisch relevanter Effekt. Bei Bestandskunden, die 93 % der Bestellungen des Experiments ausmachen (6.835 von 7.355), beträgt der Anstieg lediglich 0,9 % — so gering, dass eine gesonderte Prüfung der statistischen Signifikanz erforderlich ist.
 
-> **Методологічне застереження щодо визначення "нового клієнта".** Якщо клієнт зареєструвався давно, але вперше купив через понад 60 днів після реєстрації — таке замовлення класифікується як "Repeat", хоча технічно це його перше замовлення. Це свідома інтерпретація формулювання завдання, а не помилка розрахунку.
+> **Methodischer Hinweis zur Definition eines "Neukunden".** Hat sich ein Kunde bereits vor längerer Zeit registriert, aber erst jetzt — mehr als 60 Tage nach der Registrierung — zum ersten Mal gekauft, wird diese Bestellung als "Bestandskunde" klassifiziert, obwohl es technisch seine erste Bestellung ist. Dies ist eine bewusste Interpretation der Aufgabenstellung, kein Berechnungsfehler.
 
-Важливо зазначити методологічну деталь: це не є класичним, підручниковим парадоксом Сімпсона в найгострішій формі, оскільки напрямок ефекту не змінюється на протилежний — variant B покращує середній чек в обох підгрупах. Це радше **неоднорідність ефекту**: загальний приріст у 2% складається з величезного покращення для невеликої групи нових клієнтів (7% замовлень) і майже нульового ефекту для переважної більшості замовлень.
+Wichtig ist folgende methodische Feinheit: Es handelt sich hier nicht um das klassische Simpson-Paradoxon in seiner schärfsten Form, da sich die Wirkungsrichtung nicht umkehrt — Variante B verbessert den durchschnittlichen Bestellwert in beiden Untergruppen. Es handelt sich vielmehr um eine **Effekt-Heterogenität**: Der Gesamtanstieg von 2 % setzt sich aus einer enormen Verbesserung für eine kleine Gruppe von Neukunden (7 % der Bestellungen) und einem nahezu null Effekt für die überwiegende Mehrheit der Bestellungen zusammen.
 
-**Для кого варто впроваджувати нову версію.** Новий checkout доцільно впроваджувати з упевненістю для нових клієнтів, де ефект сильний. Для повторних клієнтів необхідна перевірка статистичної значущості (наприклад, t-тест), оскільки на вибірці понад 3 400 замовлень навіть незначна різниця може виявитись статистично значущою, але сумнівною з погляду практичної цінності.
+**Für wen sich die neue Version einzuführen lohnt.** Der neue Checkout sollte mit Zuversicht für Neukunden eingeführt werden, wo der Effekt stark ausgeprägt ist. Für Bestandskunden ist eine Prüfung der statistischen Signifikanz erforderlich (z. B. ein t-Test), da bei einer Stichprobe von über 3.400 Bestellungen selbst ein geringer Unterschied statistisch signifikant, aus praktischer Sicht jedoch fraglich sein kann.
 
-**Чесність у поданні результату.** "Продати" B будь-якою ціною — показати лише сегмент нових клієнтів (+19%), замовчуючи, що це стосується 7% замовлень. "Поховати" B — показати лише повторних клієнтів (+0,9%, статистично незначущий шум), ігноруючи реальну користь для нових клієнтів. Чесний аналітик показує обидва рівні даних одночасно і формулює дві окремі рекомендації для двох сегментів.
+**Ehrlichkeit bei der Ergebnisdarstellung.** Wollte man Variante B um jeden Preis "verkaufen", würde man ausschließlich das Segment der Neukunden zeigen und einen Anstieg von 19 % verkünden — verschweigend, dass dies nur 7 % der Bestellungen betrifft. Wollte man das Ergebnis hingegen "begraben", würde man nur die Bestandskunden zeigen (+0,9 %, statistisch unbedeutendes Rauschen) und den realen Nutzen für Neukunden ignorieren. Ein ehrlicher Analyst zeigt beide Datenebenen gleichzeitig und formuliert zwei getrennte Handlungsempfehlungen für die zwei Segmente.
 
-**Головний методологічний урок:** одне узагальнене число ніколи не розповідає всю історію повністю, і найважливіша навичка аналітика — знати, коли саме середньому не можна довіряти без подальшої деталізації.
+**Zentrale methodische Lehre:** Eine einzelne aggregierte Zahl erzählt niemals die gesamte Geschichte, und die wichtigste Fähigkeit eines Analysten besteht darin, zu erkennen, wann einem Durchschnittswert ohne weitere Detaillierung nicht vertraut werden darf.
 
-*Рисунок 13. Bar-графік порівняння variant A vs B загалом (побудовано, місце для вставки).*
-*Рисунок 14. Bar-графік "Der versteckte Unterschied: Neue vs. wiederkehrende Kunden" — 4 підгрупи New/Repeat × A/B, з підзаголовком-висновком "Variant B wirkt stark bei Neukunden (+19,2%), kaum bei Bestandskunden (+0,9%)" (місце для вставки).*
-
----
-
-## 9. Обмеження аналізу
-
-Розділ консолідує ключові методологічні застереження, розкидані по попередніх розділах:
-
-- **Атрибуція маркетингу.** ROI кампаній і LTV клієнтів не враховують ефект "першого дотику" (first-touch attribution).
-- **Ефект низької бази в регіонах.** Високі відсотки зростання (Southeast Asia, Middle East, Latin America) частково пояснюються малим стартовим обсягом виручки 2022 року.
-- **Незважена маржа категорій.** Показник — просте середнє (`AVG`), а не зважене за обсягом продажів кожного товару.
-- **LTV без контролю на "вік" когорти.** Довша історія відносин сама собою збільшує накопичений LTV незалежно від реальної лояльності.
-- **Визначення "нового клієнта" в A/B-тесті.** Клієнт, що зареєструвався давно, але вперше купив через понад 60 днів, класифікується як "повторний".
-- **Обмежена масштабованість деяких каналів.** Organic не масштабується прямим бюджетом; Influencer і Referral можуть мати обмежену ємність найкращих партнерств.
-- **Глобальне ранжування в аналізі Парето.** Топ-5% клієнтів (п. 5.5, 7.4) визначено один раз за всією базою в цілому, без перерахунку окремо для кожного регіону. Тому при застосуванні фільтра регіону до кумулятивної кривої Парето (Рисунок 5) графік показує розподіл уже визначеного глобального топ-сегменту по регіонах, а не окремий перерахунок "хто є топ-5% саме в цьому регіоні" — і в деяких регіонах із малою кількістю глобальних топ-клієнтів крива може виглядати нерівномірною. Це свідомий методологічний вибір, а не похибка розрахунку.
+*Abbildung 13. Balkendiagramm zum Vergleich Variante A vs. B insgesamt (erstellt, Platzhalter zum Einfügen).*
+*Abbildung 14. Balkendiagramm der 4 Untergruppen Neu-/Bestandskunden × A/B — zum Zeitpunkt der Berichterstellung noch nicht fertiggestellt: Bei der Arbeit in Tableau trat eine technische Schwierigkeit bei der korrekten Gruppierung von vier Balken auf einer Achse auf, die Arbeit daran wurde vorübergehend ausgesetzt (Platzhalter zum Einfügen nach Fertigstellung).*
 
 ---
 
-## 10. Висновки та рекомендації
+## 9. Grenzen der Analyse
 
-1. **Перерозподілити маркетинговий бюджет:** скоротити Paid Search на 30–40%, інвестувати вивільнені кошти в Influencer та Referral.
-2. **Переглянути позиціонування Electronics:** категорія створює ілюзію обсягу при найнижчій маржі; наростити інвестиції в Beauty, Clothing і Toys.
-3. **Пріоритетно інвестувати в Southeast Asia:** найшвидше зростаючий регіон, що вже входить у трійку лідерів за концентрацією найцінніших клієнтів.
-4. **Обмежити систематичні знижки для нових клієнтів:** використовувати їх переважно як інструмент утримання вже лояльних клієнтів.
-5. **Вибірково впроваджувати новий checkout (variant B):** з упевненістю для нових клієнтів; для існуючої бази — додаткова перевірка статистичної значущості.
+Dieses Kapitel bündelt die wichtigsten methodischen Vorbehalte, die in den vorangegangenen Kapiteln verstreut angesprochen wurden:
 
-**Загальний висновок.** Зростання ShopSphere є реальним і підтвердженим цифрами, проте розподілене вкрай нерівномірно між маркетинговими каналами, товарними категоріями, географічними регіонами та сегментами клієнтів. Головна стратегічна задача компанії на наступний рік полягає не в тому, щоб просто "рости швидше загалом", а в тому, щоб точково спрямувати обмежені ресурси туди, де віддача найвища, і водночас усвідомлено скоротити інвестиції там, де вони наразі витрачаються неефективно.
+- **Marketing-Attribution.** ROI der Kampagnen und Kunden-LTV berücksichtigen keinen First-Touch-Attributionseffekt.
+- **Basiseffekt bei den Regionen.** Die hohen Wachstumsraten (Südostasien, Naher Osten, Lateinamerika) erklären sich teilweise durch das geringe Ausgangsumsatzvolumen im Jahr 2022.
+- **Ungewichtete Kategoriemarge.** Die Kennzahl ist ein einfacher Durchschnitt (`AVG`), nicht gewichtet nach dem Verkaufsvolumen je Produkt.
+- **LTV ohne Kontrolle für das Kohorten-"Alter".** Eine längere Kundenbeziehungsdauer erhöht den kumulierten LTV unabhängig von der tatsächlichen Loyalität.
+- **Definition des "Neukunden" im A/B-Test.** Ein Kunde, der sich bereits vor längerer Zeit registriert, aber erst nach mehr als 60 Tagen zum ersten Mal gekauft hat, wird als "Bestandskunde" eingestuft.
+- **Begrenzte Skalierbarkeit einzelner Kanäle.** Organic lässt sich nicht direkt über ein Budget skalieren; Influencer und Referral verfügen möglicherweise über eine begrenzte Kapazität an erstklassigen Partnerschaften.
+- **Globales Ranking in der Pareto-Analyse.** Die Top-5-%-Kunden (Abschn. 5.5, 7.4) wurden einmalig über die gesamte Datenbasis hinweg bestimmt, ohne separate Neuberechnung je Region. Bei Anwendung des Regionsfilters auf die kumulative Pareto-Kurve (Abbildung 5) zeigt das Diagramm daher die Verteilung des bereits festgelegten globalen Top-Segments über die Regionen — nicht eine eigenständige Neuberechnung von "Wer ist Top 5 % genau in dieser Region?" —, und in Regionen mit wenigen globalen Top-Kunden kann die Kurve ungleichmäßig wirken. Dies ist eine bewusste methodische Entscheidung, kein Berechnungsfehler.
 
 ---
 
-## 11. Додаток А: перелік рисунків (скріншотів) для вставки
+## 10. Schlussfolgerungen und Handlungsempfehlungen
 
-| № | Рисунок | Розділ | Що вставити |
+1. **Marketingbudget umverteilen:** Paid Search um 30–40 % kürzen, freiwerdende Mittel in Influencer und Referral investieren.
+2. **Positionierung von Electronics überdenken:** Die Kategorie erzeugt bei niedrigster Marge eine Umsatzillusion; Investitionen in Beauty, Clothing und Toys erhöhen.
+3. **Prioritär in Südostasien investieren:** die am schnellsten wachsende Region, die bereits zu den drei Regionen mit der höchsten Konzentration wertvollster Kunden zählt.
+4. **Systematische Rabatte für Neukunden begrenzen:** Rabatte vorrangig als Instrument zur Bindung bereits loyaler Kunden einsetzen.
+5. **Neuen Checkout (Variante B) selektiv einführen:** mit Zuversicht für Neukunden; für die Bestandskundenbasis eine zusätzliche Prüfung der statistischen Signifikanz durchführen.
+
+**Gesamtfazit.** Das Wachstum von ShopSphere ist real und zahlenbasiert bestätigt, jedoch höchst ungleich verteilt zwischen Marketingkanälen, Produktkategorien, geografischen Regionen und Kundensegmenten. Die zentrale strategische Aufgabe des Unternehmens für das kommende Jahr besteht nicht darin, einfach "insgesamt schneller zu wachsen", sondern die begrenzten Ressourcen gezielt dorthin zu lenken, wo die Rendite am höchsten ist, und gleichzeitig Investitionen dort bewusst zu reduzieren, wo sie derzeit ineffizient eingesetzt werden.
+
+---
+
+## 11. Anhang A: Verzeichnis der einzufügenden Abbildungen (Screenshots)
+
+| Nr. | Abbildung | Kapitel | Was einzufügen ist |
 |---|---|---|---|
-| 1 | Рис. 1 | 5.1 | Графік сезонності з виділеними грудневими піками |
-| 2 | Рис. 2 | 5.2 | Scatter-графік "Budget vs ROI" |
-| 3 | Рис. 3 | 5.3 | Bar-графік категорій "Umsatz vs. Marge" |
-| 4 | Рис. 4 | 5.4 | Multi-line графік регіонів |
-| 5 | Рис. 5 | 5.5 | Кумулятивна крива Парето |
-| 6 | Рис. 6 | 5.6 | Bar-графік "Konversionsrate im Kanalvergleich" |
-| 7 | Рис. 7 | 6.1 | Повний вигляд головного дашборду CEO_Dashboard |
-| 8 | Рис. 8 | 6.2 | Повний вигляд дашборду Case_A_Marketing |
-| 9 | Рис. 9 | 7.1 | Scatter-графік LTV vs кількість замовлень |
-| 10 | Рис. 10 | 7.1 | Bar-графік LTV за каналом (ранжування) |
-| 11 | Рис. 11 | 7.3 | Dual-axis графік "Rabatt-Kunden bestellen seltener" |
-| 12 | Рис. 12 | 7.4 | Heatmap концентрації клієнтів за регіоном і каналом |
-| 13 | Рис. 13 | 8 | Bar-графік variant A vs B (загальний) |
-| 14 | Рис. 14 | 8 | Bar-графік "Der versteckte Unterschied" — 4 підгрупи (New/Repeat × A/B) |
+| 1 | Abb. 1 | 5.1 | Saisonalitätsdiagramm mit hervorgehobenen Dezember-Spitzen |
+| 2 | Abb. 2 | 5.2 | Streudiagramm "Budget vs. ROI" |
+| 3 | Abb. 3 | 5.3 | Balkendiagramm der Kategorien "Umsatz vs. Marge" |
+| 4 | Abb. 4 | 5.4 | Mehrlinien-Diagramm der Regionen |
+| 5 | Abb. 5 | 5.5 | Kumulative Pareto-Kurve |
+| 6 | Abb. 6 | 5.6 | Balkendiagramm "Konversionsrate im Kanalvergleich" |
+| 7 | Abb. 7 | 6.1 | Vollständige Ansicht des Haupt-Dashboards CEO_Dashboard |
+| 8 | Abb. 8 | 6.2 | Vollständige Ansicht des Dashboards Case_A_Marketing |
+| 9 | Abb. 9 | 7.1 | Streudiagramm LTV vs. Bestellanzahl |
+| 10 | Abb. 10 | 7.1 | Balkendiagramm LTV nach Kanal (Rangfolge) |
+| 11 | Abb. 11 | 7.3 | Dual-Achsen-Diagramm "Rabatt-Kunden bestellen seltener" |
+| 12 | Abb. 12 | 7.4 | Heatmap der Kundenkonzentration nach Region und Kanal |
+| 13 | Abb. 13 | 8 | Balkendiagramm Variante A vs. B (gesamt) |
+| 14 | Abb. 14 | 8 | Balkendiagramm der 4 Untergruppen (Neu-/Bestandskunden × A/B) |
 
 ---
 
-## 12. Додаток Б: тексти SQL-запитів
+## 12. Anhang B: SQL-Abfragetexte
 
 ```sql
--- 1.1. Виручка, замовлення та середній чек за регіоном і роком
+-- 1.1. Umsatz, Bestellungen und durchschnittlicher Bestellwert nach Region und Jahr
 SELECT
     c.region                                   AS region,
     o.order_year                               AS order_year,
@@ -420,7 +420,7 @@ JOIN shopsphere_customers AS c ON o.customer_id = c.customer_id
 GROUP BY c.region, o.order_year
 ORDER BY c.region, o.order_year;
 
--- 1.2. Топ-10 клієнтів за загальною сумою витрат
+-- 1.2. Top-10-Kunden nach Gesamtausgaben
 SELECT
     c.customer_id                      AS customer_id,
     c.region                           AS region,
@@ -433,7 +433,7 @@ GROUP BY c.customer_id, c.region, c.acquisition_channel
 ORDER BY total_spent DESC
 LIMIT 10;
 
--- 1.3. Виручка, маржа та частка повернень за категоріями (з регіоном і роком)
+-- 1.3. Umsatz, Marge und Retourenquote nach Kategorien (mit Region und Jahr)
 SELECT
     p.category                                                           AS category,
     o.order_year                                                         AS order_year,
@@ -449,7 +449,7 @@ JOIN shopsphere_customers AS c ON o.customer_id = c.customer_id
 GROUP BY p.category, o.order_year, c.region
 ORDER BY p.category, o.order_year, c.region;
 
--- 1.4. Клієнти з витратами вище середнього (CTE)
+-- 1.4. Kunden mit überdurchschnittlichen Ausgaben (CTE)
 WITH customer_totals AS (
     SELECT customer_id, SUM(net_amount) AS customer_total
     FROM shopsphere_orders
@@ -462,7 +462,7 @@ SELECT
 FROM customer_totals
 WHERE customer_total > (SELECT AVG(customer_total) FROM customer_totals);
 
--- 1.5. ROI маркетингових каналів
+-- 1.5. ROI der Marketingkanäle
 SELECT
     channel                                                  AS channel,
     SUM(budget)                                              AS total_budget,
@@ -472,7 +472,7 @@ FROM shopsphere_marketing
 GROUP BY channel
 ORDER BY roi DESC;
 
--- 2.5 (п. 5.5). Парето: розподіл виручки топ-5% клієнтів по 20 процентильних групах (з регіоном)
+-- 2.5 (Abschn. 5.5). Pareto: Umsatzverteilung der Top-5-%-Kunden in 20 Perzentilgruppen (mit Region)
 WITH customer_totals AS (
     SELECT
         o.customer_id                    AS customer_id,
@@ -497,7 +497,7 @@ FROM ranked
 GROUP BY percentile_bucket, region
 ORDER BY percentile_bucket, region;
 
--- 2.6 (п. 7.1). LTV за каналом залучення клієнта
+-- 2.6 (Abschn. 7.1). LTV nach Akquisitionskanal des Kunden
 SELECT
     c.acquisition_channel                                      AS acquisition_channel,
     COUNT(DISTINCT c.customer_id)                              AS customer_count,
@@ -509,7 +509,7 @@ JOIN shopsphere_orders AS o ON c.customer_id = o.customer_id
 GROUP BY c.acquisition_channel
 ORDER BY avg_ltv_per_customer DESC;
 
--- 2.6 (п. 5.6). Воронка конверсії за каналом (CTR і Conversion Rate)
+-- 2.6 (Abschn. 5.6). Conversion-Funnel nach Kanal (CTR und Conversion Rate)
 SELECT
     channel                                                    AS channel,
     SUM(impressions)                                           AS total_impressions,
@@ -521,7 +521,7 @@ FROM shopsphere_marketing
 GROUP BY channel
 ORDER BY conversion_rate_pct DESC;
 
--- Кейс В (п. 7.3). Клієнти зі знижками (>20%) vs решта
+-- Case C (Abschn. 7.3). Rabatt-Kunden (>20%) vs. übrige Kunden
 WITH customer_discount AS (
     SELECT
         customer_id,
@@ -541,7 +541,7 @@ SELECT
 FROM customer_discount
 GROUP BY segment;
 
--- п. 7.4. Профіль топ-5% клієнтів за регіоном і каналом (за виручкою)
+-- Abschn. 7.4. Profil der Top-5-%-Kunden nach Region und Kanal (nach Umsatz)
 WITH customer_totals AS (
     SELECT customer_id, SUM(net_amount) AS total_spent
     FROM shopsphere_orders
@@ -568,7 +568,7 @@ JOIN shopsphere_customers AS c ON top5.customer_id = c.customer_id
 GROUP BY c.region, c.acquisition_channel
 ORDER BY revenue_from_top5 DESC;
 
--- Розділ 5 (п. 8). A/B-тест: загальне порівняння variant A vs B
+-- Kapitel 5 (Abschn. 8). A/B-Test: Gesamtvergleich Variante A vs. B
 SELECT
     ab_variant                                 AS ab_variant,
     COUNT(*)                                    AS order_count,
@@ -578,7 +578,7 @@ WHERE ab_variant IN ('A', 'B')
 GROUP BY ab_variant
 ORDER BY ab_variant;
 
--- Розділ 5 (п. 8). A/B-тест: розбивка на нових і повторних клієнтів (4 підгрупи)
+-- Kapitel 5 (Abschn. 8). A/B-Test: Aufteilung in Neu- und Bestandskunden (4 Untergruppen)
 WITH customer_first_order AS (
     SELECT customer_id, MIN(order_date) AS first_order_date
     FROM shopsphere_orders
@@ -611,10 +611,10 @@ ORDER BY customer_type, ab_variant;
 
 ---
 
-## 13. Додаток В [РЕЗЕРВ]: розділ для Python-проєкту
+## 13. Anhang C [RESERVIERT]: Kapitel für das Python-Projekt
 
-*Цей розділ буде доповнено окремо. Тут з'явиться опис нового проєкту на Python (мета, дані, методологія, результати, висновки).*
+*Dieses Kapitel wird separat ergänzt. Hier folgt die Beschreibung eines neuen Python-Projekts (Ziel, Daten, Methodik, Ergebnisse, Schlussfolgerungen).*
 
 ---
 
-*Кінець звіту.*
+*Ende des Berichts.*
