@@ -320,7 +320,9 @@ Der Vergleich von Kunden, die überwiegend mit einem Rabatt von über 20 % kaufe
 
 **Handlungsempfehlung.** Tiefe und Häufigkeit von Rabatten speziell für Neukunden begrenzen; Rabatte vorrangig als Instrument zur Reaktivierung und Bindung bereits loyaler Kunden einsetzen, nicht als primären Akquisitionskanal — da über Rabatte gewonnene Kunden von allen im Projekt untersuchten Segmenten die schwächste Bindungsökonomie aufweisen.
 
-*Abbildung 11. Dual-Achsen-Diagramm "Rabatt-Kunden bestellen seltener und geben weniger aus" (Platzhalter zum Einfügen).*
+*Abbildung 11. Dual-Achsen-Diagramm "Rabatt-Kunden bestellen seltener und geben weniger aus".*
+
+![Abbildung 11](Tableau/Screenshot_11.png)
 
 ### 7.4. Profil der Top-5-%-Kunden: Wer sie sind und wie sie gebunden werden können
 
