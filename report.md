@@ -220,7 +220,9 @@ Dieses Kapitel geht bewusst über den bereits untersuchten Bereich der Marketing
 
 Die zentrale Erkenntnis ist der Mechanismus, der den niedrigen ROI von Paid Search und Social Ads erklärt (Abschn. 5.2): Beide Kanäle erzeugen durchaus klickfreudige Werbung, doch der überwiegende Teil der Klicks führt nicht zu einem Kauf — das Geld des Unternehmens "versickert" buchstäblich auf der Etappe "Klick → Kauf". Organic hingegen weist bei relativ niedrigem CTR die höchste Conversion Rate auf — organischer Traffic ist zahlenmäßig geringer, aber im Moment der Kaufentscheidung deutlich qualitativ hochwertiger. Diese Beobachtung ergänzt unmittelbar die Erkenntnisse aus Case A (Kapitel 7).
 
-*Abbildung 6. Balkendiagramm "Konversionsrate im Kanalvergleich" (Platzhalter zum Einfügen).*
+*Abbildung 6. Balkendiagramm "Konversionsrate im Kanalvergleich".*
+
+![Abbildung 6](Tableau/Screenshot_5.6.png)
 
 ---
 
