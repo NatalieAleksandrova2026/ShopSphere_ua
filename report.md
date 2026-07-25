@@ -375,8 +375,12 @@ Wichtig ist folgende methodische Feinheit: Es handelt sich hier nicht um das kla
 
 **Zentrale methodische Lehre:** Eine einzelne aggregierte Zahl erzählt niemals die gesamte Geschichte, und die wichtigste Fähigkeit eines Analysten besteht darin, zu erkennen, wann einem Durchschnittswert ohne weitere Detaillierung nicht vertraut werden darf.
 
-*Abbildung 13. Balkendiagramm zum Vergleich Variante A vs. B insgesamt (erstellt, Platzhalter zum Einfügen).*
-*Abbildung 14. Balkendiagramm der 4 Untergruppen Neu-/Bestandskunden × A/B — zum Zeitpunkt der Berichterstellung noch nicht fertiggestellt: Bei der Arbeit in Tableau trat eine technische Schwierigkeit bei der korrekten Gruppierung von vier Balken auf einer Achse auf, die Arbeit daran wurde vorübergehend ausgesetzt (Platzhalter zum Einfügen nach Fertigstellung).*
+*Abbildung 13. Balkendiagramm zum Vergleich Variante A vs. B insgesamt.*
+
+![Abbildung 13](Tableau/Screenshot_13.png)
+*Abbildung 14. Balkendiagramm "Der versteckte Unterschied: Neue vs. wiederkehrende Kunden" — 4 Untergruppen Neu-/Bestandskunden × A/B, mit der Erkenntnis-Unterzeile "Variant B wirkt stark bei Neukunden (+19,2 %), kaum bei Bestandskunden (+0,9 %)".*
+
+![Abbildung 14](Tableau/Screenshot_14.png)
 
 ---
 
@@ -423,7 +427,7 @@ Dieses Kapitel bündelt die wichtigsten methodischen Vorbehalte, die in den vora
 | 11 | Abb. 11 | 7.3 | Dual-Achsen-Diagramm "Rabatt-Kunden bestellen seltener" |
 | 12 | Abb. 12 | 7.4 | Heatmap der Kundenkonzentration nach Region und Kanal |
 | 13 | Abb. 13 | 8 | Balkendiagramm Variante A vs. B (gesamt) |
-| 14 | Abb. 14 | 8 | Balkendiagramm der 4 Untergruppen (Neu-/Bestandskunden × A/B) |
+| 14 | Abb. 14 | 8 | Balkendiagramm "Der versteckte Unterschied" — 4 Untergruppen (Neu-/Bestandskunden × A/B) |
 
 ---
 
