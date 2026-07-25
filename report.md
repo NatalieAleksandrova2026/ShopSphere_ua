@@ -196,7 +196,9 @@ Die zentrale Erkenntnis ist die Diskrepanz zwischen der "größten" und der "am 
 
 Die Top-5-%-Kunden des Unternehmens (150 von 3.000 Personen) erwirtschaften **35,1 % des gesamten Nettoumsatzes** (1.218.211 $) — dieses Ergebnis wurde durch zwei unabhängige Berechnungen bestätigt (einfacher Vergleich "Top 5 % vs. Rest" sowie kumulative Pareto-Kurve), die zu einem identischen Ergebnis führten. Die übrigen 95 % der Kunden erwirtschaften 64,9 % des Umsatzes. Dies ist eine mildere Konzentration als die klassische Regel "20 % der Kunden erwirtschaften 80 % des Umsatzes", dennoch bringt jeder Top-5-%-Kunde im Durchschnitt etwa siebenmal mehr ein als ein typischer Kunde. Die Kundenbasis des Unternehmens ist relativ diversifiziert — der Verlust einzelner Kunden stellt kein katastrophales Geschäftsrisiko dar —, dennoch verdient das Top-Segment ein eigenes Bindungsprogramm (Kapitel 7).
 
-*Abbildung 5. Kumulative Pareto-Kurve mit Markierung der 80-%-Schwelle (Platzhalter zum Einfügen).*
+*Abbildung 5. Kumulative Pareto-Kurve mit Markierung der 80-%-Schwelle.*
+
+![Abbildung 5](Tableau/Screenshot_5.5.png)
 
 ### 5.6. Kreativkapitel — Conversion-Funnel nach Akquisitionskanal (CTR und Conversion Rate)
 
