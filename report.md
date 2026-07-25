@@ -635,12 +635,4 @@ GROUP BY ab_variant, customer_type
 ORDER BY customer_type, ab_variant;
 ```
 
----
 
-## 13. Anhang C [RESERVIERT]: Kapitel für das Python-Projekt
-
-*Dieses Kapitel wird separat ergänzt. Hier folgt die Beschreibung eines neuen Python-Projekts (Ziel, Daten, Methodik, Ergebnisse, Schlussfolgerungen).*
-
----
-
-*Ende des Berichts.*
