@@ -188,7 +188,9 @@ Electronics ist ein Paradebeispiel für die "Umsatzillusion": Die Kategorie erze
 
 Die zentrale Erkenntnis ist die Diskrepanz zwischen der "größten" und der "am schnellsten wachsenden" Region: Nordamerika führt als reifer Markt beim absoluten Umsatz, doch gerade Südostasien zeigt ein explosionsartiges Wachstumstempo. Methodischer Hinweis: Die hohen Wachstumsraten (474 %, 425 %, 358 %) erklären sich teilweise durch den Basiseffekt eines niedrigen Ausgangsumsatzes im Jahr 2022 — selbst ein moderater absoluter Zuwachs ergibt dadurch ein hohes prozentuales Ergebnis. Dies schmälert die Bedeutung des Befunds nicht, liefert ihm aber den nötigen Kontext.
 
-*Abbildung 4. Mehrlinien-Diagramm "Umsatzentwicklung nach Region" (Platzhalter zum Einfügen).*
+*Abbildung 4. Mehrlinien-Diagramm "Umsatzentwicklung nach Region".*
+
+![Abbildung 4](Tableau/Screenshot_5.4.png)
 
 ### 5.5. Kundenbeitrag (Pareto-Prinzip)
 
