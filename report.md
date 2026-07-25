@@ -281,9 +281,13 @@ Den höchsten ROI unter allen sechs Kanälen zeigt Organic (8,0x), wobei das Bud
 
 Der Vergleich mit dem LTV offenbart eine Diskrepanz, die nicht mit dem ROI-Ranking übereinstimmt. Influencer und Referral belegen beim ROI nur mittlere Positionen (Rang 3 und 4), bilden jedoch den höchsten Kundenlebenszeitwert — ihre Kunden tätigen fast dreimal so viele Folgebestellungen wie Paid-Search-Kunden (6,6–6,0 gegenüber 2,3). Letzterer ist der einzige Kanal, der bei beiden Kennzahlen gleichzeitig als Schlusslicht abschneidet — und wie die Conversion-Funnel-Analyse zeigt (Abschn. 5.6), liegt die Ursache systemisch begründet vor: Nur 0,2 % der Klicks dieses Kanals führen zu einem Kauf, der schlechteste Wert unter allen sechs Kanälen.
 
-*Abbildung 9. Streudiagramm LTV vs. Bestellanzahl je Kunde nach Kanal (LTV_Kanal_Scatter) — veranschaulicht einen nahezu linearen Zusammenhang zwischen Wiederkaufhäufigkeit und Kundenlebenszeitwert (Platzhalter zum Einfügen).*
+*Abbildung 9. Streudiagramm LTV vs. Bestellanzahl je Kunde nach Kanal (LTV_Kanal_Scatter) — veranschaulicht einen nahezu linearen Zusammenhang zwischen Wiederkaufhäufigkeit und Kundenlebenszeitwert.*
 
-*Abbildung 10. Balkendiagramm zur Rangfolge der Kanäle nach LTV (Platzhalter zum Einfügen).*
+![Abbildung 9](Tableau/Screenshot_9.png)
+
+*Abbildung 10. Balkendiagramm zur Rangfolge der Kanäle nach LTV.*
+
+![Abbildung 10](Tableau/Screenshot_10.png)
 
 **Begründete Handlungsempfehlung.** Das Budget von Paid Search um etwa 30–40 % kürzen, da dieser Kanal auf der Ebene von ROI, LTV und Conversion-Mechanik gleichermaßen ineffizient ist — das Fehlerrisiko dieser Schlussfolgerung ist minimal, da sie durch drei unabhängige Messmethoden bestätigt wird. Die freiwerdenden Mittel sollten in Influencer und Referral umgeschichtet werden. Das Email-Budget beibehalten oder leicht erhöhen; Organic indirekt über SEO und Content-Strategie unterstützen; Social Ads als zweitgrößten Budgetposten mit schwachen Werten auf allen Ebenen kritisch überprüfen.
 
