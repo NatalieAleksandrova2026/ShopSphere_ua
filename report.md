@@ -244,7 +244,9 @@ Das Dashboard vereint vier zentrale Visualisierungen aus Kapitel 5, ausgewählt 
 2. Electronics dominiert den Umsatz, weist jedoch die niedrigste Marge unter allen Kategorien auf — die klassische "Umsatzillusion".
 3. Nur 5 % der Kunden erwirtschaften 35 % des gesamten Umsatzes.
 
-*Abbildung 7. Vollständige Ansicht des Haupt-Dashboards CEO_Dashboard (Platzhalter zum Einfügen).*
+*Abbildung 7. Vollständige Ansicht des Haupt-Dashboards CEO_Dashboard.*
+
+![Abbildung 7](Tableau/Screenshot_CEO.png)
 
 ### 6.2. Dashboard für Case A — "Marketingkanäle im Dreifach-Check"
 
