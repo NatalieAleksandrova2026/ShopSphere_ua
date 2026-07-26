@@ -14,17 +14,17 @@ ShopSphere ist ein globaler Online-Marktplatz, der Produkte aus 7 Kategorien in 
 
 Dieses Repository enthält den vollständigen Analysezyklus — von SQL-Abfragen auf Rohdaten bis hin zu fertigen interaktiven Dashboards und konkreten Handlungsempfehlungen für die Geschäftsleitung.
 
-## 🔗 Live-Dashboard auf Tableau Public
+## 🔗 Live-Dashboards auf Tableau Public
 
-**[Interaktives Dashboard CEO_Dashboard öffnen →](https://public.tableau.com/app/profile/natalie.alexandrova2389/viz/ShopSphere_17843895943230/CEO_Dashboard)**
+- **[CEO_Dashboard öffnen →](https://public.tableau.com/app/profile/natalie.alexandrova2389/viz/ShopSphere_17843895943230/CEO_Dashboard)** — Haupt-Dashboard mit Übersicht über Umsatz, Regionen, Kategorien und Kundenkonzentration
+- **[Case_A_Marketing öffnen →](https://public.tableau.com/shared/QDZG9WS3P?:display_count=n&:origin=viz_share_link)** — Dashboard zum Marketing-Case (ROI, LTV, Conversion)
 
 ## Inhalt des Repositorys
 
 ```
 ShopSphere_ua/
 ├── report.md               — finaler Analysebericht (auf Deutsch)
-├── README.md                — diese Datei (Ukrainisch)
-├── README_de.md              — diese Datei (Deutsch)
+├── README.md                — diese Datei
 ├── Tableau/
 │   ├── Screenshot_*.png      — Screenshots aller 14 Diagramme und Dashboards
 │   ├── Case_Marketing.png    — Screenshot des Dashboards Case_A_Marketing
@@ -60,12 +60,12 @@ Die vollständige Liste der Handlungsempfehlungen findet sich im Kapitel **"Schl
 ## Verwendete Tools
 
 - **SQL (SQLite)** — Datenaufbereitung und Aggregation
-- **Tableau** — Visualisierungen und interaktive Dashboards ([Tableau Public](https://public.tableau.com/app/profile/natalie.alexandrova2389/viz/ShopSphere_17843895943230/CEO_Dashboard) + lokale Datei [`ShopSphere.twbx`](./Tableau/Tableau_link/ShopSphere.twbx))
+- **Tableau** — Visualisierungen und interaktive Dashboards ([CEO_Dashboard](https://public.tableau.com/app/profile/natalie.alexandrova2389/viz/ShopSphere_17843895943230/CEO_Dashboard), [Case_A_Marketing](https://public.tableau.com/shared/QDZG9WS3P?:display_count=n&:origin=viz_share_link) + lokale Datei [`ShopSphere.twbx`](./Tableau/Tableau_link/ShopSphere.twbx))
 
 ## So nutzt man dieses Repository
 
 1. Beginne mit dem Bericht [`report.md`](./report.md) — er enthält den vollständigen Analysetext mit Tabellen, Schlussfolgerungen und eingebetteten Diagramm-Screenshots
-2. Um die Dashboards "live" zu sehen und selbst mit den Filtern zu arbeiten, öffne **[Tableau Public](https://public.tableau.com/app/profile/natalie.alexandrova2389/viz/ShopSphere_17843895943230/CEO_Dashboard)**
+2. Um die Dashboards "live" zu sehen und selbst mit den Filtern zu arbeiten, öffne **[CEO_Dashboard](https://public.tableau.com/app/profile/natalie.alexandrova2389/viz/ShopSphere_17843895943230/CEO_Dashboard)** oder **[Case_A_Marketing](https://public.tableau.com/shared/QDZG9WS3P?:display_count=n&:origin=viz_share_link)** auf Tableau Public
 3. Die Texte aller SQL-Abfragen samt Erläuterung der Logik finden sich in [`SQL/queries.sql`](./SQL/queries.sql), die Abfrageergebnisse in [`SQL/data/`](./SQL/data)
 4. Die Original-Screenshots in hoher Auflösung liegen im Ordner [`Tableau/`](./Tableau)
 
