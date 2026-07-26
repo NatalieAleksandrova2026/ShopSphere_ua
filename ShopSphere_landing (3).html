@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopSphere | Data Analytics — Наталія Александрова</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #150B23;
+    --bg-2:          #1B0F2E;
+    --surface:       #221232;
+    --surface-2:     #2C1740;
+    --border:        rgba(217,169,78,0.16);
+    --border-strong: rgba(217,169,78,0.34);
+    --gold:          #D9A94E;
+    --gold-bright:   #F0C572;
+    --gold-dim:      rgba(217,169,78,0.12);
+    --lilac:         #A47FE0;
+    --lilac-bright:  #C9A9F5;
+    --lilac-dim:     rgba(164,127,224,0.14);
+    --rust:          #C97B5A;
+    --rust-dim:      rgba(201,123,90,0.16);
+    --text:          #F6F3FB;
+    --text-muted:    #B6ACC7;
+    --text-faint:    #8A7FA0;
+    --serif: 'Fraunces', serif;
+    --sans:  'Inter', sans-serif;
+    --mono:  'IBM Plex Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(164,127,224,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 20%, rgba(217,169,78,0.07), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+  section{position:relative;z-index:1;}
+
+  ::selection{background:var(--gold-dim);color:var(--gold-bright);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  :focus-visible{outline:2px solid var(--gold-bright); outline-offset:3px; border-radius:2px;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);display:inline-block;}
+
+  h1,h2,h3{font-family:var(--serif); font-weight:600; letter-spacing:-0.01em;}
+  .section-title{
+    font-size:clamp(28px,4vw,42px); font-weight:700; line-height:1.15; margin-bottom:14px;
+    color:var(--text);
+  }
+  .section-title em{font-style:italic; color:var(--gold-bright); font-weight:600;}
+  .section-sub{
+    font-size:16px; color:var(--text-muted); max-width:640px; margin-bottom:48px;
+  }
+
+  /* ===== NAVBAR ===== */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(21,11,35,0.86);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  nav{
+    max-width:1180px;margin:0 auto;padding:18px 32px;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+  }
+  .logo{
+    font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:-0.01em; white-space:nowrap;
+  }
+  .logo span{color:var(--gold-bright); font-style:italic; font-weight:600;}
+  .nav-links{display:flex;gap:30px;align-items:center;}
+  .nav-links a{
+    font-size:13.5px; color:var(--text-muted); font-weight:500; transition:color .2s ease; position:relative;
+  }
+  .nav-links a:hover{color:var(--gold-bright);}
+  .lang-toggle{
+    display:flex; border:1px solid var(--border-strong); border-radius:100px; padding:3px; gap:2px;
+    font-family:var(--mono); font-size:12px;
+  }
+  .lang-toggle button{
+    background:none;border:none;color:var(--text-faint);padding:6px 14px;border-radius:100px;
+    cursor:pointer; font-family:var(--mono); font-size:12px; letter-spacing:0.04em; transition:all .2s ease;
+  }
+  .lang-toggle button.active{background:var(--gold); color:#1a0f2c; font-weight:600;}
+  .nav-toggle{display:none;}
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .nav-toggle{display:block;background:none;border:1px solid var(--border-strong);color:var(--text);border-radius:8px;padding:8px 10px;cursor:pointer;}
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:110px 0 90px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:60px;align-items:center;}
+  @media (max-width:960px){ .hero-grid{grid-template-columns:1fr;} }
+
+  .hero h1{
+    font-size:clamp(34px,5vw,58px); line-height:1.08; margin-bottom:24px; font-weight:700;
+  }
+  .hero h1 .accent{color:var(--gold-bright); font-style:italic;}
+  .hero-sub{font-size:17px; color:var(--text-muted); max-width:520px; margin-bottom:36px;}
+
+  .badges{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:40px;}
+  .badge{
+    font-family:var(--mono); font-size:11.5px; padding:7px 13px; border-radius:100px;
+    border:1px solid var(--border-strong); color:var(--gold-bright); background:var(--gold-dim);
+    white-space:nowrap;
+  }
+
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 26px;border-radius:8px;font-weight:600;font-size:14.5px;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    cursor:pointer;
+  }
+  .btn-primary{background:linear-gradient(135deg,var(--gold),#B8843A); color:#1a0f2c;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 30px -8px rgba(217,169,78,0.5);}
+  .btn-outline{border:1px solid var(--border-strong); color:var(--text);}
+  .btn-outline:hover{border-color:var(--gold-bright); color:var(--gold-bright); transform:translateY(-2px);}
+
+  /* hero chart signature */
+  .hero-visual{
+    position:relative; border:1px solid var(--border); border-radius:16px;
+    background:linear-gradient(160deg,var(--surface),var(--surface-2));
+    padding:26px 22px 20px;
+  }
+  .hero-visual .cap{font-family:var(--mono); font-size:11px; color:var(--text-faint); letter-spacing:.06em; text-transform:uppercase; margin-bottom:16px; display:flex; justify-content:space-between;}
+  .hero-visual .cap b{color:var(--gold-bright); font-weight:600;}
+  svg.chart-line{width:100%; height:auto; overflow:visible;}
+  .chart-path{
+    fill:none; stroke:var(--gold); stroke-width:2.5; stroke-linecap:round;
+    stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw 2.2s cubic-bezier(.65,0,.35,1) 0.3s forwards;
+  }
+  .chart-fill{opacity:0; animation:fadein 1.5s ease 1.6s forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @keyframes fadein{to{opacity:1;}}
+  .chart-dot{opacity:0; animation:fadein 0.6s ease forwards;}
+  .kpi-row{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:20px;}
+  .kpi{border-top:1px solid var(--border); padding-top:12px;}
+  .kpi .num{font-family:var(--serif); font-size:26px; font-weight:700; color:var(--gold-bright);}
+  .kpi .lbl{font-size:12px; color:var(--text-muted); margin-top:2px;}
+
+  /* ===== GENERIC SECTION SPACING ===== */
+  .section{padding:100px 0;}
+  .section.alt{background:linear-gradient(180deg,transparent,rgba(44,23,64,0.35),transparent);}
+
+  /* ===== ARCHITECTURE / SQL ===== */
+  .tables-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:56px;}
+  @media (max-width:900px){ .tables-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .tables-grid{grid-template-columns:1fr;} }
+  .table-card{
+    border:1px solid var(--border); border-radius:12px; padding:20px 16px;
+    background:var(--surface); transition:border-color .2s ease, transform .2s ease;
+  }
+  .table-card:hover{border-color:var(--border-strong); transform:translateY(-3px);}
+  .table-card .tname{font-family:var(--mono); font-size:13px; color:var(--gold-bright); margin-bottom:8px; word-break:break-word;}
+  .table-card .tdesc{font-size:12.5px; color:var(--text-muted); line-height:1.5;}
+
+  .sql-block{
+    border:1px solid var(--border); border-radius:14px; overflow:hidden;
+    background:var(--surface); margin-bottom:22px;
+  }
+  .sql-head{
+    padding:16px 22px; border-bottom:1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+  }
+  .sql-head .q-title{font-weight:600; font-size:15px;}
+  .sql-head .q-tag{font-family:var(--mono); font-size:11px; color:var(--lilac-bright); background:var(--lilac-dim); padding:4px 10px; border-radius:100px;}
+  .sql-body{padding:20px 22px; font-size:13px; color:var(--text-muted);}
+  pre{
+    font-family:var(--mono); font-size:12.5px; line-height:1.7; color:#E5DDF3;
+    background:#150C22; padding:18px 20px; border-radius:8px; overflow-x:auto;
+    border:1px solid rgba(255,255,255,0.05); margin-top:12px;
+  }
+  pre .k{color:var(--gold-bright);} pre .s{color:var(--lilac-bright);} pre .c{color:var(--text-faint); font-style:italic;}
+
+  /* ===== DASHBOARDS ===== */
+  .dash-block{
+    border:1px solid var(--border); border-radius:16px; background:var(--surface);
+    padding:26px; margin-bottom:40px;
+  }
+  .dash-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:20px; flex-wrap:wrap; gap:10px;}
+  .dash-top h3{font-size:22px;}
+  .dash-tag{font-family:var(--mono); font-size:11px; color:var(--gold-bright); background:var(--gold-dim); padding:5px 12px; border-radius:100px;}
+  .viz-frame{
+    border-radius:10px; background:#0F0919;
+    overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+  }
+  .viz-frame::-webkit-scrollbar{height:8px;}
+  .viz-frame::-webkit-scrollbar-thumb{background:var(--border-strong); border-radius:4px;}
+  .viz-frame .tableauPlaceholder{display:inline-block;}
+  .scroll-hint{
+    display:none; font-family:var(--mono); font-size:11px; color:var(--gold);
+    margin-top:8px; letter-spacing:.04em;
+  }
+  @media (max-width:1420px){ .scroll-hint{display:block;} }
+  .dash-note{font-size:13px; color:var(--text-muted); margin-top:16px; border-left:2px solid var(--gold); padding-left:14px;}
+
+  /* ===== CASES ===== */
+  .cases-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:980px){ .cases-grid{grid-template-columns:1fr;} }
+  .case-card{
+    border:1px solid var(--border); border-radius:16px; padding:30px 26px;
+    background:linear-gradient(165deg,var(--surface),var(--surface-2));
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .case-icon{font-size:26px;}
+  .case-card h3{font-size:19px; margin-bottom:2px;}
+  .case-card .case-q{font-family:var(--mono); font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.05em;}
+  .stat-line{display:flex; justify-content:space-between; align-items:center; font-size:13.5px; padding:9px 0; border-bottom:1px solid var(--border);}
+  .stat-line:last-of-type{border-bottom:none;}
+  .stat-line .lab{color:var(--text-muted);}
+  .stat-line .val{font-family:var(--mono); font-weight:600;}
+  .val.gold{color:var(--gold-bright);}
+  .val.lilac{color:var(--lilac-bright);}
+  .val.rust{color:var(--rust);}
+  .chip{
+    display:inline-block; font-family:var(--mono); font-size:10.5px; padding:3px 9px; border-radius:5px; margin-left:8px;
+  }
+  .chip.leader{background:var(--gold-dim); color:var(--gold-bright); border:1px solid var(--border-strong);}
+  .chip.warn{background:var(--rust-dim); color:var(--rust); border:1px solid rgba(201,123,90,0.35);}
+  .case-body{font-size:13.5px; color:var(--text-muted); line-height:1.65;}
+  .case-body strong{color:var(--text); font-weight:600;}
+  .case-rec{
+    font-size:13px; background:rgba(217,169,78,0.06); border:1px solid var(--border);
+    border-radius:10px; padding:14px 16px; margin-top:auto;
+  }
+  .case-rec .rec-label{font-family:var(--mono); font-size:10.5px; color:var(--gold-bright); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; display:block;}
+
+  /* ===== A/B TEST ===== */
+  .ab-section{
+    border:1px solid var(--border-strong); border-radius:20px;
+    background:radial-gradient(ellipse at top right, rgba(164,127,224,0.10), transparent 60%), var(--surface);
+    padding:52px;
+  }
+  @media (max-width:640px){ .ab-section{padding:30px 22px;} }
+  .ab-columns{display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:36px 0;}
+  @media (max-width:860px){ .ab-columns{grid-template-columns:1fr;} }
+  .ab-card{border:1px solid var(--border); border-radius:14px; padding:24px; background:rgba(15,9,25,0.4);}
+  .ab-card h4{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-faint); margin-bottom:18px;}
+  .ab-row{display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border);}
+  .ab-row:last-child{border-bottom:none;}
+  .ab-row .variant{font-family:var(--mono); font-size:13px; color:var(--text-muted);}
+  .ab-row .amount{font-family:var(--serif); font-weight:700; font-size:18px;}
+  .amount.up{color:var(--gold-bright);}
+  .delta{font-family:var(--mono); font-size:11.5px; padding:2px 8px; border-radius:5px; margin-left:8px;}
+  .delta.big{background:var(--gold-dim); color:var(--gold-bright);}
+  .delta.small{background:rgba(255,255,255,0.05); color:var(--text-faint);}
+  .ab-lesson{margin-top:30px; padding-top:30px; border-top:1px solid var(--border);}
+  .ab-lesson h4{font-size:16px; margin-bottom:12px; font-family:var(--serif);}
+  .ab-lesson p{font-size:14px; color:var(--text-muted); margin-bottom:10px;}
+
+  /* ===== RECOMMENDATIONS STRIP ===== */
+  .rec-strip{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:60px;}
+  @media (max-width:980px){ .rec-strip{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .rec-strip{grid-template-columns:1fr;} }
+  .rec-item{border:1px solid var(--border); border-radius:12px; padding:18px 16px; background:var(--surface);}
+  .rec-item .rn{font-family:var(--serif); font-size:26px; color:var(--gold-bright); font-weight:700; margin-bottom:8px; display:block;}
+  .rec-item p{font-size:12.5px; color:var(--text-muted); line-height:1.55;}
+
+  /* ===== FOOTER ===== */
+  footer{border-top:1px solid var(--border); padding:70px 0 40px;}
+  .footer-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:50px; margin-bottom:50px;}
+  @media (max-width:760px){ .footer-grid{grid-template-columns:1fr;} }
+  .footer-name{font-family:var(--serif); font-size:28px; font-weight:700; margin-bottom:6px;}
+  .footer-role{font-family:var(--mono); font-size:13px; color:var(--gold-bright); margin-bottom:18px;}
+  .footer-desc{font-size:14px; color:var(--text-muted); max-width:440px;}
+  .footer-links{display:flex; flex-direction:column; gap:14px;}
+  .footer-links a{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:14px; padding:14px 18px; border:1px solid var(--border); border-radius:10px;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .footer-links a:hover{border-color:var(--border-strong); background:var(--gold-dim); color:var(--gold-bright);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; padding-top:30px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--text-faint); flex-wrap:wrap; gap:10px;
+  }
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">ShopSphere <span>| Data Analytics</span></div>
+    <ul class="nav-links">
+      <li><a href="#about" data-ua="Про проєкт" data-de="Über das Projekt">Про проєкт</a></li>
+      <li><a href="#sql" data-ua="Питання CEO" data-de="CEO-Fragen">Питання CEO</a></li>
+      <li><a href="#dashboards" data-ua="Дашборди" data-de="Dashboards">Дашборди</a></li>
+      <li><a href="#cases" data-ua="Стратегічні відповіді" data-de="Strategische Antworten">Стратегічні відповіді</a></li>
+      <li><a href="#abtest" data-ua="A/B-тест" data-de="A/B-Test">A/B-тест</a></li>
+      <li><a href="#author" data-ua="Автор" data-de="Autorin">Автор</a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="active" data-lang="ua">UA</button>
+      <button data-lang="de">DE</button>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="about">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" data-ua="Захист фінального проєкту · Бізнес-аналітика" data-de="Verteidigung des Abschlussprojekts · Business Analytics">Захист фінального проєкту · Бізнес-аналітика</div>
+      <h1>
+        <span data-ua="ShopSphere:" data-de="ShopSphere:">ShopSphere:</span>
+        <span class="accent" data-ua="комплексний аналіз" data-de="umfassende Analyse">комплексний аналіз</span>
+        <span data-ua="та стратегічні рішення для глобального маркетплейсу (2022–2024)" data-de="und strategische Entscheidungen für einen globalen Marktplatz (2022–2024)">та стратегічні рішення для глобального маркетплейсу (2022–2024)</span>
+      </h1>
+      <p class="hero-sub" data-ua="Повний цикл аналізу даних: від складних SQL-запитів до Tableau-дашбордів, розкриття Парадоксу Сімпсона та реорганізації маркетингового бюджету на 451 тис. $." data-de="Der vollständige Datenanalysezyklus: von komplexen SQL-Abfragen über Tableau-Dashboards bis zur Aufdeckung des Simpson-Paradoxons und der Neuordnung eines 451.000-$-Marketingbudgets.">Повний цикл аналізу даних: від складних SQL-запитів до Tableau-дашбордів, розкриття Парадоксу Сімпсона та реорганізації маркетингового бюджету на 451 тис. $.</p>
+
+      <div class="badges">
+        <span class="badge">SQL (SQLite)</span>
+        <span class="badge">Tableau Public</span>
+        <span class="badge">A/B Testing</span>
+        <span class="badge">Data Modeling</span>
+        <span class="badge">LTV &amp; ROI Analysis</span>
+        <span class="badge">Simpson's Paradox</span>
+      </div>
+
+      <div class="cta-row">
+        <a href="#dashboards" class="btn btn-primary" data-ua="Відкрити дашборди ↓" data-de="Dashboards öffnen ↓">Відкрити дашборди ↓</a>
+        <a href="https://github.com/NatalieAleksandrova2026/ShopSphere_ua" target="_blank" rel="noopener" class="btn btn-outline" data-ua="GitHub репозиторій ↗" data-de="GitHub-Repository ↗">GitHub репозиторій ↗</a>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal">
+      <div class="cap">
+        <span data-ua="Динаміка виручки, 2022–2024" data-de="Umsatzentwicklung, 2022–2024">Динаміка виручки, 2022–2024</span>
+        <span><b>+821%</b> <span data-ua="грудень до грудня" data-de="Dezember zu Dezember">грудень до грудня</span></span>
+      </div>
+      <svg class="chart-line" viewBox="0 0 460 190" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D9A94E" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#D9A94E" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="chart-fill" d="M0,165 L38,158 L76,168 L114,140 L152,150 L190,120 L228,132 L266,95 L304,108 L342,70 L380,60 L418,25 L460,10 L460,190 L0,190 Z" fill="url(#areaFill)"/>
+        <path class="chart-path" d="M0,165 L38,158 L76,168 L114,140 L152,150 L190,120 L228,132 L266,95 L304,108 L342,70 L380,60 L418,25 L460,10" />
+        <circle class="chart-dot" cx="114" cy="140" r="3.5" fill="#F0C572" style="animation-delay:2.2s"/>
+        <circle class="chart-dot" cx="228" cy="132" r="3.5" fill="#F0C572" style="animation-delay:2.3s"/>
+        <circle class="chart-dot" cx="418" cy="25" r="4.5" fill="#F0C572" style="animation-delay:2.4s"/>
+        <text x="105" y="185" fill="#8A7FA0" font-family="IBM Plex Mono" font-size="9">Dec'22</text>
+        <text x="215" y="185" fill="#8A7FA0" font-family="IBM Plex Mono" font-size="9">Dec'23</text>
+        <text x="392" y="20" fill="#F0C572" font-family="IBM Plex Mono" font-size="9">Dec'24</text>
+      </svg>
+      <div class="kpi-row">
+        <div class="kpi"><div class="num">$3.47M</div><div class="lbl" data-ua="Загальна виручка" data-de="Gesamtumsatz">Загальна виручка</div></div>
+        <div class="kpi"><div class="num">12,274</div><div class="lbl" data-ua="Замовлень" data-de="Bestellungen">Замовлень</div></div>
+        <div class="kpi"><div class="num">35.1%</div><div class="lbl" data-ua="Виручки від Top-5% клієнтів" data-de="Umsatz von Top-5%-Kunden">Виручки від Top-5% клієнтів</div></div>
+        <div class="kpi"><div class="num">9.77%</div><div class="lbl" data-ua="Частка повернень" data-de="Retourenquote">Частка повернень</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SQL & ARCHITECTURE ============ -->
+<section class="section alt" id="sql">
+  <div class="wrap">
+    <div class="eyebrow" data-ua="Розділ 01" data-de="Abschnitt 01">Розділ 01</div>
+    <h2 class="section-title" data-ua="Питання CEO & структура звіту" data-de="CEO-Fragen & Berichtsstruktur">Питання CEO & структура звіту</h2>
+    <p class="section-sub" data-ua="На стратегічній сесії CEO сформулювала шість запитів. Кожен розділ цього сайту — пряма, послідовна відповідь на один із них. Повні SQL-запити (JOIN, підзапити, віконні функції NTILE) — у репозиторії за посиланням нижче." data-de="In der Strategiesitzung formulierte die CEO sechs Anliegen. Jeder Abschnitt dieser Seite ist eine direkte, konsequente Antwort auf eines davon. Die vollständigen SQL-Abfragen (JOIN, Unterabfragen, NTILE-Fensterfunktionen) finden Sie im Repository unten.">На стратегічній сесії CEO сформулювала шість запитів. Кожен розділ цього сайту — пряма, послідовна відповідь на один із них. Повні SQL-запити (JOIN, підзапити, віконні функції NTILE) — у репозиторії за посиланням нижче.</p>
+
+    <div class="tables-grid">
+      <div class="table-card">
+        <div class="tname">shopsphere_customers</div>
+        <div class="tdesc" data-ua="3 000 клієнтів: регіон, країна, вік, стать, канал залучення, дата реєстрації" data-de="3.000 Kunden: Region, Land, Alter, Geschlecht, Akquisitionskanal, Registrierungsdatum">3 000 клієнтів: регіон, країна, вік, стать, канал залучення, дата реєстрації</div>
+      </div>
+      <div class="table-card">
+        <div class="tname">shopsphere_products</div>
+        <div class="tdesc" data-ua="250 товарів у 7 категоріях: ціна, собівартість, маржа" data-de="250 Produkte in 7 Kategorien: Preis, Selbstkosten, Marge">250 товарів у 7 категоріях: ціна, собівартість, маржа</div>
+      </div>
+      <div class="table-card">
+        <div class="tname">shopsphere_orders</div>
+        <div class="tdesc" data-ua="≈12 300 замовлень — центральна таблиця фактів" data-de="≈12.300 Bestellungen — zentrale Faktentabelle">≈12 300 замовлень — центральна таблиця фактів</div>
+      </div>
+      <div class="table-card">
+        <div class="tname">shopsphere_order_items</div>
+        <div class="tdesc" data-ua="≈26 000 позицій замовлень" data-de="≈26.000 Bestellpositionen">≈26 000 позицій замовлень</div>
+      </div>
+      <div class="table-card">
+        <div class="tname">shopsphere_marketing</div>
+        <div class="tdesc" data-ua="216 кампаній у розрізі канал × місяць" data-de="216 Kampagnen nach Kanal × Monat">216 кампаній у розрізі канал × місяць</div>
+      </div>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-head">
+        <span class="q-title" data-ua="Питання 1–2 · Куди йде маркетинговий бюджет і чи ефективний він?" data-de="Fragen 1–2 · Wohin fließt das Marketingbudget, und ist es effizient?">Питання 1–2 · Куди йде маркетинговий бюджет і чи ефективний він?</span>
+        <span class="q-tag" data-ua="Розділ 03 · Кейс А" data-de="Abschnitt 03 · Case A">Розділ 03 · Кейс А</span>
+      </div>
+      <div class="sql-body" data-ua="Найбільший бюджет (≈451 тис. $) спрямований у Paid Search — канал із найнижчим ROI (1.3x), найнижчим LTV (≈$600) і найгіршою конверсією (0.2%). Дані агреговані за формулою SUM(виручка)/SUM(бюджет) по кожному каналу, зіставлені з LTV на клієнта та conversion-funnel." data-de="Das größte Budget (≈451 Tsd. $) fließt in Paid Search — den Kanal mit dem niedrigsten ROI (1,3x), niedrigsten LTV (≈600 $) und der schwächsten Conversion (0,2%). Die Daten wurden je Kanal über SUM(Umsatz)/SUM(Budget) aggregiert und mit LTV pro Kunde und dem Conversion-Funnel abgeglichen.">Найбільший бюджет (≈451 тис. $) спрямований у Paid Search — канал із найнижчим ROI (1.3x), найнижчим LTV (≈$600) і найгіршою конверсією (0.2%). Дані агреговані за формулою SUM(виручка)/SUM(бюджет) по кожному каналу, зіставлені з LTV на клієнта та conversion-funnel.</div>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-head">
+        <span class="q-title" data-ua="Питання 3 · Хто наші найцінніші клієнти?" data-de="Frage 3 · Wer sind unsere wertvollsten Kunden?">Питання 3 · Хто наші найцінніші клієнти?</span>
+        <span class="q-tag" data-ua="Розділ 03 · Кейс В" data-de="Abschnitt 03 · Case C">Розділ 03 · Кейс В</span>
+      </div>
+      <div class="sql-body" data-ua="Клієнтів розподілено на 20 перцентильних груп через віконну функцію NTILE(20) за сумою витрат. Top-5% (150 із 3 000 клієнтів) генерують 35.1% усієї виручки — результат підтверджений двома незалежними розрахунками (просте порівняння та кумулятивна крива Парето)." data-de="Die Kunden wurden über die Fensterfunktion NTILE(20) nach Ausgabensumme in 20 Perzentilgruppen eingeteilt. Die Top-5% (150 von 3.000 Kunden) erwirtschaften 35,1% des Gesamtumsatzes — bestätigt durch zwei unabhängige Berechnungen (einfacher Vergleich und kumulative Pareto-Kurve).">Клієнтів розподілено на 20 перцентильних груп через віконну функцію NTILE(20) за сумою витрат. Top-5% (150 із 3 000 клієнтів) генерують 35.1% усієї виручки — результат підтверджений двома незалежними розрахунками (просте порівняння та кумулятивна крива Парето).</div>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-head">
+        <span class="q-title" data-ua="Питання 4 · Які категорії справді прибуткові, а які створюють ілюзію обсягу?" data-de="Frage 4 · Welche Kategorien sind wirklich profitabel, welche erzeugen eine Umsatzillusion?">Питання 4 · Які категорії справді прибуткові, а які створюють ілюзію обсягу?</span>
+        <span class="q-tag" data-ua="Розділ 03 · Кейс Б" data-de="Abschnitt 03 · Case B">Розділ 03 · Кейс Б</span>
+      </div>
+      <div class="sql-body" data-ua="Чотирикратний JOIN (order_items → products → orders → customers) зіставив категорію товару з маржею, регіоном і статусом повернення. Electronics генерує вчетверо більше виручки за будь-яку іншу категорію, але має найнижчу маржу (12%) серед 7 категорій; Beauty — навпаки, найвища маржа (55%) при скромному обсязі." data-de="Ein vierfacher JOIN (order_items → products → orders → customers) verknüpfte Produktkategorie mit Marge, Region und Retourenstatus. Electronics erzeugt viermal so viel Umsatz wie jede andere Kategorie, hat aber die niedrigste Marge (12%) unter 7 Kategorien; Beauty hat dagegen die höchste Marge (55%) bei bescheidenem Volumen.">Чотирикратний JOIN (order_items → products → orders → customers) зіставив категорію товару з маржею, регіоном і статусом повернення. Electronics генерує вчетверо більше виручки за будь-яку іншу категорію, але має найнижчу маржу (12%) серед 7 категорій; Beauty — навпаки, найвища маржа (55%) при скромному обсязі.</div>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-head">
+        <span class="q-title" data-ua="Питання 5 · Які регіони — наше майбутнє?" data-de="Frage 5 · Welche Regionen sind unsere Zukunft?">Питання 5 · Які регіони — наше майбутнє?</span>
+        <span class="q-tag" data-ua="Розділ 02 · CEO Dashboard" data-de="Abschnitt 02 · CEO Dashboard">Розділ 02 · CEO Dashboard</span>
+      </div>
+      <div class="sql-body" data-ua="JOIN orders і customers за регіоном і роком показав розбіжність між «найбільшим» і «найшвидшим» ринком: Північна Америка лідирує за абсолютною виручкою ($718.7 тис.), але Південно-Східна Азія зростає найшвидше (+473.9% р/р) — саме на неї варто зробити стратегічну ставку." data-de="Der JOIN von orders und customers nach Region und Jahr zeigte die Diskrepanz zwischen dem „größten“ und dem „am schnellsten wachsenden“ Markt: Nordamerika führt beim absoluten Umsatz (718,7 Tsd. $), doch Südostasien wächst am schnellsten (+473,9% YoY) — die strategische Wette der Zukunft.">JOIN orders і customers за регіоном і роком показав розбіжність між «найбільшим» і «найшвидшим» ринком: Північна Америка лідирує за абсолютною виручкою ($718.7 тис.), але Південно-Східна Азія зростає найшвидше (+473.9% р/р) — саме на неї варто зробити стратегічну ставку.</div>
+    </div>
+
+    <div class="sql-block">
+      <div class="sql-head">
+        <span class="q-title" data-ua="Питання 6 · Чи спрацював checkout-експеримент продуктової команди?" data-de="Frage 6 · Hat das Checkout-Experiment des Produktteams funktioniert?">Питання 6 · Чи спрацював checkout-експеримент продуктової команди?</span>
+        <span class="q-tag" data-ua="Розділ 04 · A/B-тест" data-de="Abschnitt 04 · A/B-Test">Розділ 04 · A/B-тест</span>
+      </div>
+      <div class="sql-body" data-ua="CTE визначила тип клієнта (новий / постійний) за датою першого замовлення відносно дати реєстрації, потім розрахувала середній чек для 4 підгруп (Variant × тип клієнта). Саме цей запит розкрив гетерогенність ефекту: +19.2% для нових клієнтів проти лише +0.9% для постійних, що складають 93% замовлень." data-de="Eine CTE bestimmte den Kundentyp (neu/bestand) anhand des ersten Bestelldatums relativ zum Registrierungsdatum und berechnete den Bestellwert für 4 Untergruppen (Variante × Kundentyp). Dieser Query deckte die Effekt-Heterogenität auf: +19,2% für Neukunden gegenüber nur +0,9% für Bestandskunden, die 93% der Bestellungen ausmachen.">CTE визначила тип клієнта (новий / постійний) за датою першого замовлення відносно дати реєстрації, потім розрахувала середній чек для 4 підгруп (Variant × тип клієнта). Саме цей запит розкрив гетерогенність ефекту: +19.2% для нових клієнтів проти лише +0.9% для постійних, що складають 93% замовлень.</div>
+    </div>
+
+    <p style="text-align:center;margin-top:36px;">
+      <a href="https://github.com/NatalieAleksandrova2026/ShopSphere_ua/tree/main/SQL" target="_blank" rel="noopener" class="btn btn-outline" data-ua="Повні SQL-запити на GitHub ↗" data-de="Vollständige SQL-Abfragen auf GitHub ↗">Повні SQL-запити на GitHub ↗</a>
+    </p>
+  </div>
+</section>
+
+<!-- ============ DASHBOARDS ============ -->
+<section class="section" id="dashboards">
+  <div class="wrap">
+    <div class="eyebrow" data-ua="Розділ 02" data-de="Abschnitt 02">Розділ 02</div>
+    <h2 class="section-title" data-ua="Інтерактивні дашборди" data-de="Interaktive Dashboards">Інтерактивні дашборди</h2>
+    <p class="section-sub" data-ua="Два тематичні дашборди в Tableau Public — від загального огляду для CEO до глибокого занурення в ефективність маркетингу." data-de="Zwei thematische Dashboards in Tableau Public — vom allgemeinen CEO-Überblick bis zur Tiefenanalyse der Marketingeffizienz.">Два тематичні дашборди в Tableau Public — від загального огляду для CEO до глибокого занурення в ефективність маркетингу.</p>
+
+    <div class="dash-block reveal">
+      <div class="dash-top">
+        <h3 data-ua="CEO Dashboard · Огляд і фільтри" data-de="CEO Dashboard · Überblick und Filter">CEO Dashboard · Огляд і фільтри</h3>
+        <span class="dash-tag" data-ua="Фільтри: рік, регіон" data-de="Filter: Jahr, Region">Фільтри: рік, регіон</span>
+      </div>
+      <div class="viz-frame">
+        <div class='tableauPlaceholder' id='viz1785089704691' style='position: relative'><noscript><a href='#'><img alt=' ' src='https://public.tableau.com/static/images/Sh/ShopSphere_17843895943230/CEO_Dashboard/1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='ShopSphere_17843895943230&#47;CEO_Dashboard' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='static_image' value='https://public.tableau.com/static/images/Sh/ShopSphere_17843895943230/CEO_Dashboard/1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>
+        <script type='text/javascript'>
+          (function(){
+            var divElement = document.getElementById('viz1785089704691');
+            var vizElement = divElement.getElementsByTagName('object')[0];
+            vizElement.style.width = '1366px';
+            vizElement.style.height = '818px';
+            if(!window.tableauApiLoading){
+              window.tableauApiLoading = true;
+              var scriptElement = document.createElement('script');
+              scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+              vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            }
+          })();
+        </script>
+      </div>
+      <p class="scroll-hint" data-ua="→ прокрутіть дашборд вправо, щоб побачити повністю" data-de="→ Dashboard nach rechts scrollen, um alles zu sehen">→ прокрутіть дашборд вправо, щоб побачити повністю</p>
+      <p class="dash-note" data-ua="Три висновки за 30 секунд: Південно-Східна Азія зростає найшвидше (+474% р/р); Electronics домінує у виручці, але має найнижчу маржу; лише 5% клієнтів генерують 35% виручки." data-de="Drei Erkenntnisse in 30 Sekunden: Südostasien wächst am schnellsten (+474% YoY); Electronics dominiert den Umsatz, hat aber die niedrigste Marge; nur 5% der Kunden erwirtschaften 35% des Umsatzes.">Три висновки за 30 секунд: Південно-Східна Азія зростає найшвидше (+474% р/р); Electronics домінує у виручці, але має найнижчу маржу; лише 5% клієнтів генерують 35% виручки.</p>
+    </div>
+
+    <div class="dash-block reveal">
+      <div class="dash-top">
+        <h3 data-ua="Case A · Marketing — потрійна перевірка каналів" data-de="Case A · Marketing — Dreifach-Check der Kanäle">Case A · Marketing — потрійна перевірка каналів</h3>
+        <span class="dash-tag" data-ua="ROI · LTV · Conversion" data-de="ROI · LTV · Conversion">ROI · LTV · Conversion</span>
+      </div>
+      <div class="viz-frame">
+        <div class='tableauPlaceholder' id='viz1785089756440' style='position: relative'><noscript><a href='#'><img alt=' ' src='https://public.tableau.com/static/images/YM/YMN3WMHTF/1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;YMN3WMHTF' /> <param name='toolbar' value='yes' /><param name='static_image' value='https://public.tableau.com/static/images/YM/YMN3WMHTF/1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>
+        <script type='text/javascript'>
+          (function(){
+            var divElement = document.getElementById('viz1785089756440');
+            var vizElement = divElement.getElementsByTagName('object')[0];
+            vizElement.style.width = '1366px';
+            vizElement.style.height = '818px';
+            if(!window.tableauApiLoading){
+              window.tableauApiLoading = true;
+              var scriptElement = document.createElement('script');
+              scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+              vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            }
+          })();
+        </script>
+      </div>
+      <p class="scroll-hint" data-ua="→ прокрутіть дашборд вправо, щоб побачити повністю" data-de="→ Dashboard nach rechts scrollen, um alles zu sehen">→ прокрутіть дашборд вправо, щоб побачити повністю</p>
+      <p class="dash-note" data-ua="Organic і Email дають найвищий ROI та кращу конверсію; Influencer і Referral будують найлояльніших і найцінніших клієнтів; Paid Search програє на всіх трьох рівнях." data-de="Organic und Email liefern den höchsten ROI und die beste Conversion; Influencer und Referral bauen die loyalsten und wertvollsten Kunden auf; Paid Search versagt auf allen drei Ebenen.">Organic і Email дають найвищий ROI та кращу конверсію; Influencer і Referral будують найлояльніших і найцінніших клієнтів; Paid Search програє на всіх трьох рівнях.</p>
+    </div>
+
+    <div class="dash-block reveal">
+      <div class="dash-top">
+        <h3 data-ua="A/B-тест · Порівняння Variant A vs. B" data-de="A/B-Test · Vergleich Variante A vs. B">A/B-тест · Порівняння Variant A vs. B</h3>
+        <span class="dash-tag" data-ua="Checkout Experiment" data-de="Checkout Experiment">Checkout Experiment</span>
+      </div>
+      <div class="viz-frame">
+        <div class='tableauPlaceholder' id='viz1785089796444' style='position: relative'><noscript><a href='#'><img alt=' ' src='https://public.tableau.com/static/images/76/76D36HTZG/1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;76D36HTZG' /> <param name='toolbar' value='yes' /><param name='static_image' value='https://public.tableau.com/static/images/76/76D36HTZG/1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>
+        <script type='text/javascript'>
+          (function(){
+            var divElement = document.getElementById('viz1785089796444');
+            var vizElement = divElement.getElementsByTagName('object')[0];
+            vizElement.style.width = '1366px';
+            vizElement.style.height = '818px';
+            if(!window.tableauApiLoading){
+              window.tableauApiLoading = true;
+              var scriptElement = document.createElement('script');
+              scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+              vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            }
+          })();
+        </script>
+      </div>
+      <p class="scroll-hint" data-ua="→ прокрутіть дашборд вправо, щоб побачити повністю" data-de="→ Dashboard nach rechts scrollen, um alles zu sehen">→ прокрутіть дашборд вправо, щоб побачити повністю</p>
+      <div class="viz-frame" style="margin-top:16px;">
+        <div class='tableauPlaceholder' id='viz1785089870030' style='position: relative'><noscript><a href='#'><img alt=' ' src='https://public.tableau.com/static/images/WY/WYPKHTH59/1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;WYPKHTH59' /> <param name='toolbar' value='yes' /><param name='static_image' value='https://public.tableau.com/static/images/WY/WYPKHTH59/1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>
+        <script type='text/javascript'>
+          (function(){
+            var divElement = document.getElementById('viz1785089870030');
+            var vizElement = divElement.getElementsByTagName('object')[0];
+            vizElement.style.width = '1366px';
+            vizElement.style.height = '818px';
+            if(!window.tableauApiLoading){
+              window.tableauApiLoading = true;
+              var scriptElement = document.createElement('script');
+              scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+              vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            }
+          })();
+        </script>
+      </div>
+      <p class="scroll-hint" data-ua="→ прокрутіть дашборд вправо, щоб побачити повністю" data-de="→ Dashboard nach rechts scrollen, um alles zu sehen">→ прокрутіть дашборд вправо, щоб побачити повністю</p>
+      <p class="dash-note" data-ua="Загальний приріст у 2% ховає гетерогенність ефекту: +19.2% для нових клієнтів проти +0.9% для постійних (93% замовлень)." data-de="Der Gesamtanstieg von 2% verbirgt eine Effekt-Heterogenität: +19,2% für Neukunden gegenüber +0,9% für Bestandskunden (93% der Bestellungen).">Загальний приріст у 2% ховає гетерогенність ефекту: +19.2% для нових клієнтів проти +0.9% для постійних (93% замовлень).</p>
+    </div>
+
+    <p style="text-align:center;margin-top:10px;">
+      <a href="https://public.tableau.com/app/profile/natalie.alexandrova2389" target="_blank" rel="noopener" class="btn btn-outline" data-ua="Усі дашборди на Tableau Public ↗" data-de="Alle Dashboards auf Tableau Public ↗">Усі дашборди на Tableau Public ↗</a>
+    </p>
+  </div>
+</section>
+
+<!-- ============ STRATEGIC CASES ============ -->
+<section class="section alt" id="cases">
+  <div class="wrap">
+    <div class="eyebrow" data-ua="Розділ 03" data-de="Abschnitt 03">Розділ 03</div>
+    <h2 class="section-title" data-ua="Стратегічні відповіді для ради директорів" data-de="Strategische Antworten für den Vorstand">Стратегічні відповіді для ради директорів</h2>
+    <p class="section-sub" data-ua="Три кейси, кожен підкріплений конкретними цифрами зі звіту." data-de="Drei Cases, jeder mit konkreten Zahlen aus dem Bericht belegt.">Три кейси, кожен підкріплений конкретними цифрами зі звіту.</p>
+
+    <div class="cases-grid">
+      <!-- CASE A -->
+      <div class="case-card reveal">
+        <div class="case-icon">📊</div>
+        <div>
+          <div class="case-q" data-ua="Кейс А · Питання 3–5" data-de="Case A · Fragen 3–5">Кейс А · Питання 3–5</div>
+          <h3 data-ua="Ефективність маркетингу" data-de="Marketingeffizienz">Ефективність маркетингу</h3>
+        </div>
+        <div>
+          <div class="stat-line"><span class="lab">Organic</span><span class="val gold">8.0x ROI<span class="chip leader" data-ua="лідер" data-de="Spitze">лідер</span></span></div>
+          <div class="stat-line"><span class="lab">Influencer</span><span class="val gold">$1,986 LTV<span class="chip leader">#1 LTV</span></span></div>
+          <div class="stat-line"><span class="lab">Paid Search</span><span class="val rust">1.3x ROI<span class="chip warn" data-ua="найгірший" data-de="schwächster">найгірший</span></span></div>
+        </div>
+        <div class="case-body" data-ua="Найбільший бюджет (≈451 тис. $) спрямований у Paid Search — канал із найнижчим ROI, найнижчим LTV (≈$600) і найгіршою конверсією (0.2%). Натомість Influencer і Referral дають найвищий LTV, хоч і отримують середнє фінансування." data-de="Das größte Budget (≈451 Tsd. $) fließt in Paid Search — den Kanal mit dem niedrigsten ROI, niedrigsten LTV (≈600 $) und der schwächsten Conversion (0,2%). Influencer und Referral liefern dagegen den höchsten LTV bei nur mittlerer Finanzierung.">Найбільший бюджет (≈451 тис. $) спрямований у Paid Search — канал із найнижчим ROI, найнижчим LTV (≈$600) і найгіршою конверсією (0.2%). Натомість Influencer і Referral дають найвищий LTV, хоч і отримують середнє фінансування.</div>
+        <div class="case-rec">
+          <span class="rec-label" data-ua="Рекомендація" data-de="Empfehlung">Рекомендація</span>
+          <span data-ua="Скоротити бюджет Paid Search на 30–40%, перенаправити кошти в Influencer і Referral. Ризик: можлива first-touch атрибуція — різке скорочення може послабити верхню частину воронки залучення." data-de="Budget von Paid Search um 30–40% kürzen, Mittel in Influencer und Referral umschichten. Risiko: mögliche First-Touch-Attribution — eine drastische Kürzung könnte den oberen Akquisitions-Funnel schwächen.">Скоротити бюджет Paid Search на 30–40%, перенаправити кошти в Influencer і Referral. Ризик: можлива first-touch атрибуція — різке скорочення може послабити верхню частину воронки залучення.</span>
+        </div>
+      </div>
+
+      <!-- CASE B -->
+      <div class="case-card reveal">
+        <div class="case-icon">📦</div>
+        <div>
+          <div class="case-q" data-ua="Кейс Б · Питання 6–7" data-de="Case B · Fragen 6–7">Кейс Б · Питання 6–7</div>
+          <h3 data-ua="Прибутковість категорій" data-de="Kategorie-Profitabilität">Прибутковість категорій</h3>
+        </div>
+        <div>
+          <div class="stat-line"><span class="lab">Electronics</span><span class="val rust">12% <span data-ua="маржа" data-de="Marge">маржа</span><span class="chip warn" data-ua="найнижча" data-de="niedrigste">найнижча</span></span></div>
+          <div class="stat-line"><span class="lab">Beauty</span><span class="val gold">55% <span data-ua="маржа" data-de="Marge">маржа</span><span class="chip leader" data-ua="найвища" data-de="höchste">найвища</span></span></div>
+          <div class="stat-line"><span class="lab" data-ua="Виручка Electronics" data-de="Umsatz Electronics">Виручка Electronics</span><span class="val lilac">$2.10M <span data-ua="(x4 від решти)" data-de="(4x der übrigen)">(x4 від решти)</span></span></div>
+        </div>
+        <div class="case-body" data-ua="«Ілюзія обсягу»: Electronics генерує вчетверо більше виручки за будь-яку іншу категорію, але має найнижчу маржу серед 7 категорій (12%). «Прихований діамант» — Beauty: скромний обсяг (≈$200 тис.), але найвища маржа (55%) і низький % повернень (≈10%)." data-de="„Umsatzillusion“: Electronics erzeugt viermal so viel Umsatz wie jede andere Kategorie, hat aber die niedrigste Marge unter allen 7 Kategorien (12%). „Versteckter Diamant“ — Beauty: bescheidenes Volumen (≈200 Tsd. $), aber höchste Marge (55%) und niedrige Retourenquote (≈10%).">«Ілюзія обсягу»: Electronics генерує вчетверо більше виручки за будь-яку іншу категорію, але має найнижчу маржу серед 7 категорій (12%). «Прихований діамант» — Beauty: скромний обсяг (≈$200 тис.), але найвища маржа (55%) і низький % повернень (≈10%).</div>
+        <div class="case-rec">
+          <span class="rec-label" data-ua="Рекомендація" data-de="Empfehlung">Рекомендація</span>
+          <span data-ua="Збільшити маркетингові інвестиції в Beauty (кожен додатковий $ тут цінніший), переглянути розміщення в каталозі, розглянути крос-продажі. Обмеження: маржа — простий AVG, не зважений за обсягом продажів." data-de="Marketinginvestitionen in Beauty erhöhen (jeder zusätzliche $ ist hier wertvoller), Katalogplatzierung überprüfen, Cross-Selling erwägen. Einschränkung: Die Marge ist ein einfacher AVG, nicht nach Verkaufsvolumen gewichtet.">Збільшити маркетингові інвестиції в Beauty (кожен додатковий $ тут цінніший), переглянути розміщення в каталозі, розглянути крос-продажі. Обмеження: маржа — простий AVG, не зважений за обсягом продажів.</span>
+        </div>
+      </div>
+
+      <!-- CASE C -->
+      <div class="case-card reveal">
+        <div class="case-icon">🏷️</div>
+        <div>
+          <div class="case-q" data-ua="Кейс В · Питання 8–9" data-de="Case C · Fragen 8–9">Кейс В · Питання 8–9</div>
+          <h3 data-ua="Знижки та Парето-аналіз" data-de="Rabatte und Pareto-Analyse">Знижки та Парето-аналіз</h3>
+        </div>
+        <div>
+          <div class="stat-line"><span class="lab" data-ua="Клієнти зі знижками (>20%)" data-de="Discount-Kunden (>20%)">Клієнти зі знижками (>20%)</span><span class="val rust">$384 <span data-ua="LTV" data-de="LTV">LTV</span></span></div>
+          <div class="stat-line"><span class="lab" data-ua="Решта клієнтів" data-de="Übrige Kunden">Решта клієнтів</span><span class="val gold">$1,261 <span data-ua="LTV" data-de="LTV">LTV</span></span></div>
+          <div class="stat-line"><span class="lab" data-ua="Top-5% клієнтів" data-de="Top-5%-Kunden">Top-5% клієнтів</span><span class="val lilac">35.1% <span data-ua="виручки" data-de="Umsatz">виручки</span></span></div>
+        </div>
+        <div class="case-body" data-ua="Клієнти зі знижками >20% роблять удвічі менше замовлень, 25% стають одноразовими покупцями (проти 16.6%) і генерують у 3.3x менше виручки за весь час ($384 проти $1,261). Топ-5% клієнтів (150 осіб) дають 35.1% виручки; лідери — Europe/Influencer та SEA/Organic." data-de="Kunden mit Rabatt >20% bestellen halb so oft, 25% werden Einmalkäufer (gegenüber 16,6%) und erwirtschaften über die Kundenbeziehung 3,3x weniger Umsatz (384 $ vs. 1.261 $). Die Top-5%-Kunden (150 Personen) erwirtschaften 35,1% des Umsatzes; führend sind Europe/Influencer und SEA/Organic.">Клієнти зі знижками >20% роблять удвічі менше замовлень, 25% стають одноразовими покупцями (проти 16.6%) і генерують у 3.3x менше виручки за весь час ($384 проти $1,261). Топ-5% клієнтів (150 осіб) дають 35.1% виручки; лідери — Europe/Influencer та SEA/Organic.</div>
+        <div class="case-rec">
+          <span class="rec-label" data-ua="Рекомендація" data-de="Empfehlung">Рекомендація</span>
+          <span data-ua="Обмежити глибину знижок саме для нових клієнтів; використовувати знижки для утримання лояльних, а не як основний канал залучення. Для Top-5%: персоналізована VIP-програма для Europe/Influencer і SEA/Organic." data-de="Rabattgröße speziell für Neukunden begrenzen; Rabatte zur Bindung loyaler Kunden nutzen, nicht als primären Akquisitionskanal. Für Top-5%: personalisiertes VIP-Programm für Europe/Influencer und SEA/Organic.">Обмежити глибину знижок саме для нових клієнтів; використовувати знижки для утримання лояльних, а не як основний канал залучення. Для Top-5%: персоналізована VIP-програма для Europe/Influencer і SEA/Organic.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ A/B TEST ============ -->
+<section class="section" id="abtest">
+  <div class="wrap">
+    <div class="eyebrow" data-ua="Розділ 04" data-de="Abschnitt 04">Розділ 04</div>
+    <h2 class="section-title" data-ua="Статистичне мислення: A/B-тест і <em>Парадокс Сімпсона</em>" data-de="Statistisches Denken: A/B-Test und <em>Simpson-Paradoxon</em>">Статистичне мислення: A/B-тест і <em>Парадокс Сімпсона</em></h2>
+    <p class="section-sub" data-ua="Новий дизайн checkout протестовано з 1 червня 2024 року. Поверхневий висновок і сегментований аналіз розповідають дві різні історії." data-de="Das neue Checkout-Design wurde ab dem 1. Juni 2024 getestet. Das oberflächliche Fazit und die segmentierte Analyse erzählen zwei verschiedene Geschichten.">Новий дизайн checkout протестовано з 1 червня 2024 року. Поверхневий висновок і сегментований аналіз розповідають дві різні історії.</p>
+
+    <div class="ab-section reveal">
+      <div class="eyebrow" data-ua="Поверхневий погляд" data-de="Oberflächlicher Blick">Поверхневий погляд</div>
+      <div class="ab-row" style="max-width:520px;">
+        <span class="variant" data-ua="Variant A · 3,681 замовлень" data-de="Variante A · 3.681 Bestellungen">Variant A · 3,681 замовлень</span>
+        <span class="amount">$281.73</span>
+      </div>
+      <div class="ab-row" style="max-width:520px;">
+        <span class="variant" data-ua="Variant B · 3,674 замовлень" data-de="Variante B · 3.674 Bestellungen">Variant B · 3,674 замовлень</span>
+        <span class="amount up">$287.27 <span class="delta big">+1.97%</span></span>
+      </div>
+      <p style="margin-top:16px;font-size:14px;color:var(--text-muted);" data-ua="На цьому рівні напрошується висновок: новий checkout працює краще для всіх. Але 93% замовлень належать постійним клієнтам — і саме там ефект майже зникає." data-de="Auf dieser Ebene drängt sich der Schluss auf: der neue Checkout funktioniert für alle besser. Doch 93% der Bestellungen stammen von Bestandskunden — und genau dort verschwindet der Effekt fast.">На цьому рівні напрошується висновок: новий checkout працює краще для всіх. Але 93% замовлень належать постійним клієнтам — і саме там ефект майже зникає.</p>
+
+      <div class="eyebrow" style="margin-top:40px;" data-ua="Глибока сегментація" data-de="Tiefere Segmentierung">Глибока сегментація</div>
+      <div class="ab-columns">
+        <div class="ab-card">
+          <h4 data-ua="Нові клієнти (7% замовлень)" data-de="Neukunden (7% der Bestellungen)">Нові клієнти (7% замовлень)</h4>
+          <div class="ab-row">
+            <span class="variant">A · 264 orders</span>
+            <span class="amount">$223.30</span>
+          </div>
+          <div class="ab-row">
+            <span class="variant">B · 256 orders</span>
+            <span class="amount up">$266.21 <span class="delta big">+19.2%</span></span>
+          </div>
+        </div>
+        <div class="ab-card">
+          <h4 data-ua="Постійні клієнти (93% замовлень)" data-de="Bestandskunden (93% der Bestellungen)">Постійні клієнти (93% замовлень)</h4>
+          <div class="ab-row">
+            <span class="variant">A · 3,417 orders</span>
+            <span class="amount">$286.24</span>
+          </div>
+          <div class="ab-row">
+            <span class="variant">B · 3,418 orders</span>
+            <span class="amount">$288.85 <span class="delta small">+0.9%</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ab-lesson">
+        <h4 data-ua="Стратегічне рішення" data-de="Strategische Entscheidung">Стратегічне рішення</h4>
+        <p data-ua="Це не класичний парадокс Сімпсона в найгострішій формі — напрямок ефекту не змінюється, Variant B покращує середній чек в обох підгрупах. Це радше <strong>гетерогенність ефекту</strong>: загальний приріст у 2% складається з величезного покращення для малої групи нових клієнтів і майже нульового ефекту для переважної більшості замовлень." data-de="Dies ist kein klassisches Simpson-Paradoxon in schärfster Form — die Wirkungsrichtung kehrt sich nicht um, Variante B verbessert den Bestellwert in beiden Untergruppen. Es handelt sich vielmehr um <strong>Effekt-Heterogenität</strong>: Der Gesamtanstieg von 2% setzt sich aus einer enormen Verbesserung für eine kleine Neukundengruppe und einem nahezu null Effekt für die Mehrheit zusammen.">Це не класичний парадокс Сімпсона в найгострішій формі — напрямок ефекту не змінюється, Variant B покращує середній чек в обох підгрупах. Це радше <strong>гетерогенність ефекту</strong>: загальний приріст у 2% складається з величезного покращення для малої групи нових клієнтів і майже нульового ефекту для переважної більшості замовлень.</p>
+        <p data-ua="Впроваджувати Variant B впевнено для нових клієнтів; для постійних клієнтів необхідна додаткова перевірка статистичної значущості (напр. t-тест) — при вибірці понад 3,400 замовлень навіть мала різниця може бути значущою, але практично сумнівною." data-de="Variante B für Neukunden mit Zuversicht einführen; für Bestandskunden ist eine zusätzliche Signifikanzprüfung nötig (z.B. t-Test) — bei über 3.400 Bestellungen kann selbst ein kleiner Unterschied signifikant, praktisch aber fraglich sein.">Впроваджувати Variant B впевнено для нових клієнтів; для постійних клієнтів необхідна додаткова перевірка статистичної значущості (напр. t-тест) — при вибірці понад 3,400 замовлень навіть мала різниця може бути значущою, але практично сумнівною.</p>
+        <p data-ua="<strong>Урок чесності:</strong> маніпулятор показав би лише сегмент нових клієнтів (+19%), приховуючи, що це лише 7% замовлень — або лише постійних (+0.9%), поховавши реальну користь. Чесний аналітик показує обидва рівні одночасно й формулює дві окремі рекомендації." data-de="<strong>Lehre zur Ehrlichkeit:</strong> Ein Manipulator würde nur das Neukundensegment zeigen (+19%) und verschweigen, dass dies nur 7% der Bestellungen sind — oder nur die Bestandskunden (+0,9%), um das reale Ergebnis zu begraben. Ein ehrlicher Analyst zeigt beide Ebenen und formuliert zwei getrennte Empfehlungen.">Урок чесності: маніпулятор показав би лише сегмент нових клієнтів (+19%), приховуючи, що це лише 7% замовлень — або лише постійних (+0.9%), поховавши реальну користь. Чесний аналітик показує обидва рівні одночасно й формулює дві окремі рекомендації.</p>
+      </div>
+    </div>
+
+    <div class="rec-strip">
+      <div class="reveal rec-item"><span class="rn">01</span><p data-ua="Перерозподілити маркетинговий бюджет: скоротити Paid Search на 30–40%, інвестувати в Influencer і Referral." data-de="Marketingbudget umverteilen: Paid Search um 30–40% kürzen, in Influencer und Referral investieren.">Перерозподілити маркетинговий бюджет: скоротити Paid Search на 30–40%, інвестувати в Influencer і Referral.</p></div>
+      <div class="reveal rec-item"><span class="rn">02</span><p data-ua="Переглянути позиціонування Electronics: збільшити інвестиції в Beauty, Clothing і Toys." data-de="Positionierung von Electronics überdenken: Investitionen in Beauty, Clothing und Toys erhöhen.">Переглянути позиціонування Electronics: збільшити інвестиції в Beauty, Clothing і Toys.</p></div>
+      <div class="reveal rec-item"><span class="rn">03</span><p data-ua="Пріоритетно інвестувати в Південно-Східну Азію — найшвидше зростаючий регіон." data-de="Prioritär in Südostasien investieren — die am schnellsten wachsende Region.">Пріоритетно інвестувати в Південно-Східну Азію — найшвидше зростаючий регіон.</p></div>
+      <div class="reveal rec-item"><span class="rn">04</span><p data-ua="Обмежити системні знижки для нових клієнтів; використовувати їх для утримання лояльних." data-de="Systematische Rabatte für Neukunden begrenzen; für die Bindung loyaler Kunden nutzen.">Обмежити системні знижки для нових клієнтів; використовувати їх для утримання лояльних.</p></div>
+      <div class="reveal rec-item"><span class="rn">05</span><p data-ua="Впровадити новий checkout (Variant B) вибірково: впевнено для нових, з перевіркою — для постійних." data-de="Neuen Checkout (Variante B) selektiv einführen: sicher für Neukunden, mit Prüfung für Bestandskunden.">Впровадити новий checkout (Variant B) вибірково: впевнено для нових, з перевіркою — для постійних.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER / AUTHOR ============ -->
+<footer id="author">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="eyebrow" data-ua="Автор проєкту" data-de="Autorin des Projekts">Автор проєкту</div>
+        <div class="footer-name">Наталія Александрова</div>
+        <div class="footer-role">Data Analyst / Business Analyst</div>
+        <p class="footer-desc" data-ua="Повний цикл бізнес-аналітики для ShopSphere: SQL-моделювання, Tableau-дашборди та статистично обґрунтовані рекомендації для ради директорів." data-de="Der vollständige Business-Analytics-Zyklus für ShopSphere: SQL-Modellierung, Tableau-Dashboards und statistisch fundierte Empfehlungen für den Vorstand.">Повний цикл бізнес-аналітики для ShopSphere: SQL-моделювання, Tableau-дашборди та статистично обґрунтовані рекомендації для ради директорів.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/NatalieAleksandrova2026/ShopSphere_ua" target="_blank" rel="noopener">
+          <span data-ua="GitHub репозиторій" data-de="GitHub-Repository">GitHub репозиторій</span> <span>↗</span>
+        </a>
+        <a href="https://public.tableau.com/app/profile/natalie.alexandrova2389" target="_blank" rel="noopener">
+          <span data-ua="Профіль на Tableau Public" data-de="Tableau-Public-Profil">Профіль на Tableau Public</span> <span>↗</span>
+        </a>
+        <a href="https://github.com/NatalieAleksandrova2026/ShopSphere_ua/blob/main/report.md" target="_blank" rel="noopener">
+          <span data-ua="Повний звіт (report.md)" data-de="Vollständiger Bericht (report.md)">Повний звіт (report.md)</span> <span>↗</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-ua="© 2026 ShopSphere Analytics · Наталія Александрова" data-de="© 2026 ShopSphere Analytics · Natalie Alexandrova">© 2026 ShopSphere Analytics · Наталія Александрова</span>
+      <span data-ua="Дані: 2022–2024 · SQLite + Tableau" data-de="Daten: 2022–2024 · SQLite + Tableau">Дані: 2022–2024 · SQLite + Tableau</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---------- Language toggle ----------
+  var langButtons = document.querySelectorAll('.lang-toggle button');
+  var i18nNodes = document.querySelectorAll('[data-ua][data-de]');
+
+  function setLang(lang){
+    document.documentElement.lang = (lang === 'de') ? 'de' : 'uk';
+    i18nNodes.forEach(function(node){
+      var val = node.getAttribute('data-' + lang);
+      if(val !== null){ node.innerHTML = val; }
+    });
+    langButtons.forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+
+  langButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){ setLang(btn.getAttribute('data-lang')); });
+  });
+
+  // ---------- Mobile nav toggle ----------
+  var navToggle = document.querySelector('.nav-toggle');
+  var navLinks = document.querySelector('.nav-links');
+  if(navToggle){
+    navToggle.addEventListener('click', function(){
+      var open = navLinks.style.display === 'flex';
+      navLinks.style.display = open ? 'none' : 'flex';
+      navLinks.style.flexDirection = 'column';
+      navLinks.style.position = 'absolute';
+      navLinks.style.top = '64px';
+      navLinks.style.right = '32px';
+      navLinks.style.background = '#1B0F2E';
+      navLinks.style.border = '1px solid var(--border)';
+      navLinks.style.borderRadius = '12px';
+      navLinks.style.padding = '16px 22px';
+      navLinks.style.gap = '16px';
+    });
+  }
+
+  // ---------- Scroll reveal ----------
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(function(el){ io.observe(el); });
+</script>
+
+</body>
+</html>
